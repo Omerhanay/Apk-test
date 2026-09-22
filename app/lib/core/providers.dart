@@ -1,0 +1,65 @@
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'agent/tool_contract.dart';
+import 'ai/relay_client.dart';
+import 'db/connection.dart';
+import 'db/database.dart';
+import 'locale.dart';
+import 'permissions/permission_repository.dart';
+import 'security/app_lock.dart';
+import 'security/authenticator.dart';
+import 'security/key_store.dart';
+
+export 'locale.dart' show sharedPreferencesProvider;
+
+final clockProvider = Provider<DateTime Function()>((ref) => DateTime.now);
+
+final secretStoreProvider = Provider<SecretStore>((ref) => const SecureStorageSecretStore());
+
+final keyStoreProvider = Provider<KeyStore>((ref) => KeyStore(ref.watch(secretStoreProvider)));
+
+final authenticatorProvider = Provider<Authenticator>((ref) => LocalAuthAuthenticator());
+
+final appLockProvider = NotifierProvider<AppLockController, LockStatus>(AppLockController.new);
+
+/// Opened only after unlock: nothing reads it until the lock gate shows the app.
+final databaseProvider = FutureProvider<LifeDatabase>((ref) async {
+  final db = await openLifeDatabase(ref.watch(keyStoreProvider));
+  ref.onDispose(db.close);
+  return db;
+});
+
+final toolRegistryProvider = FutureProvider<ToolRegistry>((ref) async {
+  return ToolRegistry.fromContractJson(await rootBundle.loadString('assets/contracts/agent-tools.json'));
+});
+
+final permissionRepositoryProvider = FutureProvider<PermissionRepository>((ref) async {
+  final repo = PermissionRepository(
+    await ref.watch(databaseProvider.future),
+    await ref.watch(toolRegistryProvider.future),
+    clock: ref.watch(clockProvider),
+  );
+  await repo.seedDefaults();
+  return repo;
+});
+
+final relayCredentialsProvider = FutureProvider<RelayCredentials?>((ref) => ref.watch(keyStoreProvider).relayCredentials());
+
+/// Overridable so tests can inject an HTTP mock.
+final relayClientFactoryProvider = Provider<RelayClient Function(RelayCredentials)>((ref) => RelayClient.new);
+
+/// Whether the first-run welcome has been completed.
+final onboardedProvider = NotifierProvider<OnboardedController, bool>(OnboardedController.new);
+
+class OnboardedController extends Notifier<bool> {
+  static const _key = 'onboarded_v1';
+
+  @override
+  bool build() => ref.watch(sharedPreferencesProvider).getBool(_key) ?? false;
+
+  Future<void> complete() async {
+    await ref.read(sharedPreferencesProvider).setBool(_key, true);
+    state = true;
+  }
+}

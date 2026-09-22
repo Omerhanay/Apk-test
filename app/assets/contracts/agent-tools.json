@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "notes": "Single source of truth for agent tools. The relay sends name/description/input_schema to the LLM. The mobile app executes tools on-device and its permission firewall enforces capability/effect/risk. Approval is never a model-callable tool.",
+  "tools": [
+    {
+      "name": "search_memory",
+      "description": "Search facts, preferences and past events the user has told LIFE OS. Returns only currently valid memories unless include_history is true. Each result has an id you must cite.",
+      "capability": "READ_MEMORY",
+      "effect": "read",
+      "risk": "none",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "Natural-language search text." },
+          "category": { "type": "string", "description": "Optional category filter, e.g. vehicle, family, preference." },
+          "include_history": { "type": "boolean", "description": "Include superseded/expired memories." }
+        },
+        "required": ["query"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "search_documents",
+      "description": "Search uploaded documents and their extracted fields (dates, providers, policy details). Each result has an id you must cite.",
+      "capability": "READ_DOCUMENTS",
+      "effect": "read",
+      "risk": "none",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string" },
+          "doc_type": { "type": "string", "description": "Optional, e.g. insurance, warranty, passport, invoice." }
+        },
+        "required": ["query"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "search_tasks",
+      "description": "List or search the user's tasks. Dates are ISO 8601.",
+      "capability": "READ_TASKS",
+      "effect": "read",
+      "risk": "none",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string" },
+          "status": { "type": "string", "enum": ["open", "done", "any"] },
+          "due_after": { "type": "string", "format": "date-time" },
+          "due_before": { "type": "string", "format": "date-time" }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "search_events",
+      "description": "List calendar events and appointments in a time range. Dates are ISO 8601.",
+      "capability": "READ_CALENDAR",
+      "effect": "read",
+      "risk": "none",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string" },
+          "start": { "type": "string", "format": "date-time" },
+          "end": { "type": "string", "format": "date-time" }
+        },
+        "required": ["start", "end"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "create_task",
+      "description": "Propose creating a task. The app decides whether it needs the user's approval; the result tells you whether it was created, is awaiting approval, or was blocked.",
+      "capability": "CREATE_TASK",
+      "effect": "commit",
+      "risk": "low",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+          "notes": { "type": "string", "maxLength": 2000 },
+          "due_at": { "type": "string", "format": "date-time" },
+          "priority": { "type": "string", "enum": ["low", "normal", "high"] }
+        },
+        "required": ["title"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "create_reminder",
+      "description": "Propose a reminder at a specific time, optionally linked to a task, event, document or memory id.",
+      "capability": "CREATE_REMINDER",
+      "effect": "commit",
+      "risk": "low",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+          "fire_at": { "type": "string", "format": "date-time" },
+          "target_id": { "type": "string" }
+        },
+        "required": ["title", "fire_at"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "create_event",
+      "description": "Propose a calendar event.",
+      "capability": "CREATE_EVENT",
+      "effect": "commit",
+      "risk": "low",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+          "starts_at": { "type": "string", "format": "date-time" },
+          "ends_at": { "type": "string", "format": "date-time" },
+          "location": { "type": "string", "maxLength": 200 }
+        },
+        "required": ["title", "starts_at"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "update_memory",
+      "description": "Propose storing, correcting or retracting a fact about the user. Use op=retract when the user says something is no longer true, and pass the id of the memory being replaced when correcting.",
+      "capability": "WRITE_MEMORY",
+      "effect": "commit",
+      "risk": "low",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "op": { "type": "string", "enum": ["create", "update", "retract"] },
+          "memory_id": { "type": "string" },
+          "category": { "type": "string" },
+          "content": { "type": "string", "maxLength": 1000 },
+          "kind": { "type": "string", "enum": ["semantic", "episodic", "procedural", "temporal"] },
+          "valid_until": { "type": "string", "format": "date-time" }
+        },
+        "required": ["op"],
+        "additionalProperties": false
+      }
+    }
+  ]
+}
