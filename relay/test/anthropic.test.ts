@@ -5,16 +5,11 @@ import { ProviderError } from "../src/llm/types.js";
 
 function fakeClient(respond: (params: any) => any) {
   const calls: any[] = [];
-  const client = {
-    beta: {
-      messages: {
-        create: async (params: any) => {
-          calls.push(params);
-          return respond(params);
-        },
-      },
-    },
-  } as unknown as Pick<Anthropic, "beta">;
+  const handler = async (params: any) => {
+    calls.push(params);
+    return respond(params);
+  };
+  const client = { beta: { messages: { create: handler, parse: handler } } } as unknown as Pick<Anthropic, "beta">;
   return { client, calls };
 }
 
@@ -91,5 +86,39 @@ describe("AnthropicProvider", () => {
     await expect(
       provider.agentTurn({ system: "s", tools, messages: [{ role: "user", content: [{ type: "text", text: "q" }] }] }),
     ).rejects.toMatchObject(new ProviderError("rate_limited", true));
+  });
+
+  it("parses memories with structured output, low effort and the user text fenced as data", async () => {
+    const parsed = {
+      op: "retract", content: "Artık o arabam yok.", category: "vehicle", kind: "semantic",
+      subject: "user.vehicle", predicate: "model", value: null, valid_until: null,
+      sensitivity: "normal", confidence: 0.9, needs_clarification: null,
+    };
+    const { client, calls } = fakeClient(() => ({ stop_reason: "end_turn", parsed_output: parsed }));
+    const provider = new AnthropicProvider({ model: "claude-opus-5", effort: "high", maxTokens: 16000, client });
+    const result = await provider.parseMemory({
+      system: "sys",
+      request: { text: "artık o arabam yok", locale: "tr", today: "2026-09-22", known_subjects: [] },
+    });
+    expect(result).toEqual(parsed);
+    const req = calls[0];
+    expect(req.output_config.effort).toBe("low");
+    expect(req.output_config.format).toBeDefined();
+    expect(req.fallbacks).toBe("default");
+    expect(req.messages[0].content).toContain("<user_text>\nartık o arabam yok\n</user_text>");
+  });
+
+  it("reports a refused or unparseable memory parse as an error, not a guess", async () => {
+    const refused = new AnthropicProvider({
+      model: "m", effort: "high", maxTokens: 1,
+      client: fakeClient(() => ({ stop_reason: "refusal", parsed_output: null })).client,
+    });
+    const request = { text: "x", locale: "en" as const, today: "2026-09-22", known_subjects: [] };
+    await expect(refused.parseMemory({ system: "s", request })).rejects.toMatchObject({ code: "refused" });
+    const empty = new AnthropicProvider({
+      model: "m", effort: "high", maxTokens: 1,
+      client: fakeClient(() => ({ stop_reason: "end_turn", parsed_output: null })).client,
+    });
+    await expect(empty.parseMemory({ system: "s", request })).rejects.toMatchObject({ code: "unparseable" });
   });
 });

@@ -39,7 +39,7 @@
   "lifeThingsEmptyTitle": "No things yet",
   "lifeThingsEmptyBody": "Vehicles, subscriptions and trips are linked here.",
   "memoryEmptyTitle": "LIFE OS knows nothing yet",
-  "memoryEmptyBody": "Everything LIFE OS remembers will be listed here, with where it came from. You can edit or delete any of it.",
+  "memoryEmptyBody": "Tell LIFE OS about your life with the + button. Everything it remembers is listed here with where it came from, and you can edit or delete any of it.",
   "settingsTitle": "Settings & privacy",
   "settingsTrust": "TRUST",
   "settingsPermissions": "Permissions",
@@ -109,5 +109,88 @@
   "auditAskFirstOn": "\"Ask me first\" turned on",
   "auditAskFirstOff": "\"Ask me first\" turned off",
   "auditRelayPaired": "Relay connected",
-  "auditRelayRemoved": "Relay disconnected"
+  "auditRelayRemoved": "Relay disconnected",
+  "memoryAdd": "Add memory",
+  "memoryCaptureHint": "Tell LIFE OS something about your life",
+  "memoryCaptureExample": "e.g. My car is a BYD Seal U. I prefer morning flights.",
+  "memoryOrganizeWithAi": "Organize with AI",
+  "memoryOrganizeNote": "The text is sent to your AI relay to categorize it.",
+  "memoryContinue": "Continue",
+  "memorySave": "Save",
+  "memoryCategory": "Category",
+  "memoryPreviewTitle": "LIFE OS will remember",
+  "memoryRetractPreviewTitle": "Mark as no longer true",
+  "memoryRetractNoMatch": "No matching memory was found. You can save this as a new note instead.",
+  "memorySaveAsNote": "Save as note",
+  "memoryReplaces": "Replaces: {old}",
+  "@memoryReplaces": {
+    "placeholders": {
+      "old": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryAiUnavailable": "Couldn't organize it with AI. You can save it as written.",
+  "memorySpecialCategoryNote": "Marked as highly sensitive. It stays encrypted on this phone.",
+  "memoryRemembered": "Remembered",
+  "memoryUpdatedKeepsHistory": "Updated. The previous version is kept in history.",
+  "memoryMarkedNotTrue": "Marked as no longer true",
+  "memoryDeleted": "Deleted",
+  "memorySearchHint": "Search memories",
+  "memoryNoResults": "No memories match.",
+  "memorySourceUser": "You told LIFE OS",
+  "memorySourceDocument": "From a document",
+  "memorySourceAi": "Suggested by AI",
+  "memorySourceIntegration": "From a connected app",
+  "memorySourceSystem": "Added by LIFE OS",
+  "memoryValidUntil": "Valid until {date}",
+  "@memoryValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryEndedOn": "No longer true since {date}",
+  "@memoryEndedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryRecordedOn": "Recorded {date}",
+  "@memoryRecordedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryHistory": "HISTORY",
+  "memoryHistoryEmpty": "No earlier versions.",
+  "memoryHistoryEdited": "Before editing",
+  "memoryHistoryReplaced": "Replaced",
+  "memoryHistoryRetracted": "Marked no longer true",
+  "memoryEdit": "Edit",
+  "memoryNoLongerTrue": "No longer true",
+  "memoryDelete": "Delete",
+  "memoryDeleteConfirmTitle": "Delete this memory?",
+  "memoryDeleteConfirmBody": "It will be removed from this phone with its history. This can't be undone.",
+  "memoryCancel": "Cancel",
+  "catFamily": "Family",
+  "catVehicle": "Vehicle",
+  "catHome": "Home",
+  "catHealth": "Health",
+  "catWork": "Work",
+  "catFinance": "Finance",
+  "catTravel": "Travel",
+  "catPreference": "Preferences",
+  "catRoutine": "Routines",
+  "catOther": "Other",
+  "auditMemoryCreated": "Memory added",
+  "auditMemoryEdited": "Memory edited",
+  "auditMemoryRetracted": "Memory marked no longer true",
+  "auditMemorySuperseded": "Memory replaced by a newer one",
+  "auditMemoryDeleted": "Memory deleted"
 }

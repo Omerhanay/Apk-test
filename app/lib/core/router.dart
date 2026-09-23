@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../features/ask/ask_sheet.dart';
 import '../features/documents/documents_screen.dart';
 import '../features/life/life_screen.dart';
+import '../features/memory/capture_sheet.dart';
+import '../features/memory/memory_detail_screen.dart';
 import '../features/memory/memory_screen.dart';
 import '../features/settings/activity_screen.dart';
 import '../features/settings/permissions_screen.dart';
@@ -14,7 +16,10 @@ import '../features/today/today_screen.dart';
 import 'design/widgets.dart';
 import '../l10n/app_localizations.dart';
 
+final _rootKey = GlobalKey<NavigatorState>();
+
 GoRouter buildRouter() => GoRouter(
+      navigatorKey: _rootKey,
       initialLocation: '/today',
       routes: [
         StatefulShellRoute.indexedStack(
@@ -24,7 +29,20 @@ GoRouter buildRouter() => GoRouter(
             _branch('/tasks', const TasksScreen()),
             _branch('/documents', const DocumentsScreen()),
             _branch('/life', const LifeScreen()),
-            _branch('/memory', const MemoryScreen()),
+            StatefulShellBranch(routes: [
+              GoRoute(
+                path: '/memory',
+                builder: (context, state) => const MemoryScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    // Opens above the tab bar, like settings.
+                    parentNavigatorKey: _rootKey,
+                    builder: (context, state) => MemoryDetailScreen(id: state.pathParameters['id']!),
+                  ),
+                ],
+              ),
+            ]),
           ],
         ),
         GoRoute(
@@ -45,6 +63,8 @@ StatefulShellBranch _branch(String path, Widget screen) =>
 class _HomeShell extends StatelessWidget {
   const _HomeShell({required this.shell});
   final StatefulNavigationShell shell;
+
+  static const _memoryTab = 4;
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +101,14 @@ class _HomeShell extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: switch (shell.currentIndex) {
+        _memoryTab => FloatingActionButton(
+            tooltip: l.memoryAdd,
+            onPressed: () => showCaptureSheet(context),
+            child: const Icon(Icons.add),
+          ),
+        _ => null,
+      },
       bottomNavigationBar: NavigationBar(
         selectedIndex: shell.currentIndex,
         destinations: destinations,

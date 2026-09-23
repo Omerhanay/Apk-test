@@ -137,7 +137,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get memoryEmptyBody =>
-      'Everything LIFE OS remembers will be listed here, with where it came from. You can edit or delete any of it.';
+      'Tell LIFE OS about your life with the + button. Everything it remembers is listed here with where it came from, and you can edit or delete any of it.';
 
   @override
   String get settingsTitle => 'Settings & privacy';
@@ -337,4 +337,184 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get auditRelayRemoved => 'Relay disconnected';
+
+  @override
+  String get memoryAdd => 'Add memory';
+
+  @override
+  String get memoryCaptureHint => 'Tell LIFE OS something about your life';
+
+  @override
+  String get memoryCaptureExample =>
+      'e.g. My car is a BYD Seal U. I prefer morning flights.';
+
+  @override
+  String get memoryOrganizeWithAi => 'Organize with AI';
+
+  @override
+  String get memoryOrganizeNote =>
+      'The text is sent to your AI relay to categorize it.';
+
+  @override
+  String get memoryContinue => 'Continue';
+
+  @override
+  String get memorySave => 'Save';
+
+  @override
+  String get memoryCategory => 'Category';
+
+  @override
+  String get memoryPreviewTitle => 'LIFE OS will remember';
+
+  @override
+  String get memoryRetractPreviewTitle => 'Mark as no longer true';
+
+  @override
+  String get memoryRetractNoMatch =>
+      'No matching memory was found. You can save this as a new note instead.';
+
+  @override
+  String get memorySaveAsNote => 'Save as note';
+
+  @override
+  String memoryReplaces(String old) {
+    return 'Replaces: $old';
+  }
+
+  @override
+  String get memoryAiUnavailable =>
+      'Couldn\'t organize it with AI. You can save it as written.';
+
+  @override
+  String get memorySpecialCategoryNote =>
+      'Marked as highly sensitive. It stays encrypted on this phone.';
+
+  @override
+  String get memoryRemembered => 'Remembered';
+
+  @override
+  String get memoryUpdatedKeepsHistory =>
+      'Updated. The previous version is kept in history.';
+
+  @override
+  String get memoryMarkedNotTrue => 'Marked as no longer true';
+
+  @override
+  String get memoryDeleted => 'Deleted';
+
+  @override
+  String get memorySearchHint => 'Search memories';
+
+  @override
+  String get memoryNoResults => 'No memories match.';
+
+  @override
+  String get memorySourceUser => 'You told LIFE OS';
+
+  @override
+  String get memorySourceDocument => 'From a document';
+
+  @override
+  String get memorySourceAi => 'Suggested by AI';
+
+  @override
+  String get memorySourceIntegration => 'From a connected app';
+
+  @override
+  String get memorySourceSystem => 'Added by LIFE OS';
+
+  @override
+  String memoryValidUntil(String date) {
+    return 'Valid until $date';
+  }
+
+  @override
+  String memoryEndedOn(String date) {
+    return 'No longer true since $date';
+  }
+
+  @override
+  String memoryRecordedOn(String date) {
+    return 'Recorded $date';
+  }
+
+  @override
+  String get memoryHistory => 'HISTORY';
+
+  @override
+  String get memoryHistoryEmpty => 'No earlier versions.';
+
+  @override
+  String get memoryHistoryEdited => 'Before editing';
+
+  @override
+  String get memoryHistoryReplaced => 'Replaced';
+
+  @override
+  String get memoryHistoryRetracted => 'Marked no longer true';
+
+  @override
+  String get memoryEdit => 'Edit';
+
+  @override
+  String get memoryNoLongerTrue => 'No longer true';
+
+  @override
+  String get memoryDelete => 'Delete';
+
+  @override
+  String get memoryDeleteConfirmTitle => 'Delete this memory?';
+
+  @override
+  String get memoryDeleteConfirmBody =>
+      'It will be removed from this phone with its history. This can\'t be undone.';
+
+  @override
+  String get memoryCancel => 'Cancel';
+
+  @override
+  String get catFamily => 'Family';
+
+  @override
+  String get catVehicle => 'Vehicle';
+
+  @override
+  String get catHome => 'Home';
+
+  @override
+  String get catHealth => 'Health';
+
+  @override
+  String get catWork => 'Work';
+
+  @override
+  String get catFinance => 'Finance';
+
+  @override
+  String get catTravel => 'Travel';
+
+  @override
+  String get catPreference => 'Preferences';
+
+  @override
+  String get catRoutine => 'Routines';
+
+  @override
+  String get catOther => 'Other';
+
+  @override
+  String get auditMemoryCreated => 'Memory added';
+
+  @override
+  String get auditMemoryEdited => 'Memory edited';
+
+  @override
+  String get auditMemoryRetracted => 'Memory marked no longer true';
+
+  @override
+  String get auditMemorySuperseded => 'Memory replaced by a newer one';
+
+  @override
+  String get auditMemoryDeleted => 'Memory deleted';
 }

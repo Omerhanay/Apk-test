@@ -2,13 +2,15 @@ import rateLimit from "@fastify/rate-limit";
 import Fastify, { type FastifyInstance } from "fastify";
 import { randomUUID } from "node:crypto";
 import { verifyBearer } from "./auth.js";
-import { AgentTurnRequest, type LlmProvider, ProviderError, type ToolSpec } from "./llm/types.js";
+import { AgentTurnRequest, type LlmProvider, MemoryParseRequest, ProviderError, type ToolSpec } from "./llm/types.js";
 
 export interface ServerDeps {
   tokenSha256: string;
   provider: LlmProvider;
   systemPrompt: string;
   promptVersion: string;
+  memoryParsePrompt: string;
+  memoryParsePromptVersion: string;
   tools: ToolSpec[];
   rateLimitPerMinute: number;
   logLevel?: string;
@@ -73,6 +75,32 @@ export async function buildServer(deps: ServerDeps): Promise<FastifyInstance> {
       const retryable = err instanceof ProviderError && err.retryable;
       req.log.error({ event: "agent_turn_failed", code, latency_ms: Math.round(performance.now() - started) });
       return reply.code(code === "rate_limited" ? 429 : 502).send({ error: code, retryable });
+    }
+  });
+
+  app.post("/v1/memory/parse", async (req, reply) => {
+    const parsed = MemoryParseRequest.safeParse(req.body);
+    if (!parsed.success) {
+      return reply.code(400).send({ error: "invalid_request", issues: parsed.error.issues.map((i) => i.path.join(".")) });
+    }
+    const started = performance.now();
+    try {
+      const result = await deps.provider.parseMemory({ system: deps.memoryParsePrompt, request: parsed.data });
+      // Structural fields only: category and op are not personal content.
+      req.log.info({
+        event: "memory_parse",
+        provider: deps.provider.name,
+        prompt_version: deps.memoryParsePromptVersion,
+        op: result.op,
+        category: result.category,
+        latency_ms: Math.round(performance.now() - started),
+      });
+      return { ...result, prompt_version: deps.memoryParsePromptVersion };
+    } catch (err) {
+      const code = err instanceof ProviderError ? err.code : "unknown";
+      const retryable = err instanceof ProviderError && err.retryable;
+      req.log.error({ event: "memory_parse_failed", code, latency_ms: Math.round(performance.now() - started) });
+      return reply.code(code === "rate_limited" ? 429 : code === "refused" ? 422 : 502).send({ error: code, retryable });
     }
   });
 

@@ -1,3 +1,4 @@
+import '../../core/db/tables.dart' show Source;
 import '../../l10n/app_localizations.dart';
 
 /// User-facing names for permission capabilities. Unknown codes are shown as-is
@@ -23,5 +24,31 @@ String auditActionLabel(AppLocalizations l, String action) => switch (action) {
       'ask_first_off' => l.auditAskFirstOff,
       'relay_paired' => l.auditRelayPaired,
       'relay_removed' => l.auditRelayRemoved,
+      'memory_created' => l.auditMemoryCreated,
+      'memory_edited' => l.auditMemoryEdited,
+      'memory_retracted' => l.auditMemoryRetracted,
+      'memory_superseded' => l.auditMemorySuperseded,
+      'memory_deleted' => l.auditMemoryDeleted,
       _ => action,
+    };
+
+String memoryCategoryLabel(AppLocalizations l, String category) => switch (category) {
+      'family' => l.catFamily,
+      'vehicle' => l.catVehicle,
+      'home' => l.catHome,
+      'health' => l.catHealth,
+      'work' => l.catWork,
+      'finance' => l.catFinance,
+      'travel' => l.catTravel,
+      'preference' => l.catPreference,
+      'routine' => l.catRoutine,
+      _ => l.catOther,
+    };
+
+String memorySourceLabel(AppLocalizations l, Source source) => switch (source) {
+      Source.userStated => l.memorySourceUser,
+      Source.document => l.memorySourceDocument,
+      Source.aiInferred => l.memorySourceAi,
+      Source.integration => l.memorySourceIntegration,
+      Source.system => l.memorySourceSystem,
     };

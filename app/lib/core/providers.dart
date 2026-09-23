@@ -6,6 +6,7 @@ import 'ai/relay_client.dart';
 import 'db/connection.dart';
 import 'db/database.dart';
 import 'locale.dart';
+import 'memory/memory_repository.dart';
 import 'permissions/permission_repository.dart';
 import 'security/app_lock.dart';
 import 'security/authenticator.dart';
@@ -42,6 +43,10 @@ final permissionRepositoryProvider = FutureProvider<PermissionRepository>((ref) 
   );
   await repo.seedDefaults();
   return repo;
+});
+
+final memoryRepositoryProvider = FutureProvider<MemoryRepository>((ref) async {
+  return MemoryRepository(await ref.watch(databaseProvider.future), clock: ref.watch(clockProvider));
 });
 
 final relayCredentialsProvider = FutureProvider<RelayCredentials?>((ref) => ref.watch(keyStoreProvider).relayCredentials());

@@ -1,12 +1,27 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import type { BetaContentBlock, BetaContentBlockParam, BetaMessageParam } from "@anthropic-ai/sdk/resources/beta/messages/messages";
-import { type AgentTurnResult, type Block, type LlmProvider, type Message, ProviderError, type StopReason, type ToolSpec } from "./types.js";
+import {
+  type AgentTurnResult,
+  type Block,
+  type LlmProvider,
+  type Message,
+  MemoryParse,
+  type MemoryParseRequest,
+  ProviderError,
+  type StopReason,
+  type ToolSpec,
+} from "./types.js";
 
 const PROVIDER = "anthropic";
 
+type Effort = "low" | "medium" | "high" | "xhigh" | "max";
+
 export interface AnthropicOptions {
   model: string;
-  effort: "low" | "medium" | "high" | "xhigh" | "max";
+  effort: Effort;
+  /** Memory parsing is a small, well-specified task. */
+  parseEffort?: Effort;
   maxTokens: number;
   /** Injected for tests; defaults to a client that reads ANTHROPIC_API_KEY from the environment. */
   client?: Pick<Anthropic, "beta">;
@@ -47,6 +62,38 @@ export class AnthropicProvider implements LlmProvider {
         usage: { input_tokens: response.usage.input_tokens, output_tokens: response.usage.output_tokens },
       };
     } catch (err) {
+      throw mapError(err);
+    }
+  }
+
+  async parseMemory(input: { system: string; request: MemoryParseRequest }): Promise<MemoryParse> {
+    const { text, locale, today, known_subjects } = input.request;
+    try {
+      const response = await this.client.beta.messages.parse({
+        model: this.opts.model,
+        max_tokens: 4000,
+        thinking: { type: "adaptive" },
+        output_config: { effort: this.opts.parseEffort ?? "low", format: betaZodOutputFormat(MemoryParse) },
+        betas: ["server-side-fallback-2026-07-01"],
+        fallbacks: "default",
+        system: [{ type: "text", text: input.system, cache_control: { type: "ephemeral" } }],
+        messages: [
+          {
+            role: "user",
+            content: [
+              `today: ${today}`,
+              `language: ${locale}`,
+              `known_subjects: ${JSON.stringify(known_subjects)}`,
+              `<user_text>\n${text}\n</user_text>`,
+            ].join("\n"),
+          },
+        ],
+      });
+      if (response.stop_reason === "refusal") throw new ProviderError("refused", false);
+      if (!response.parsed_output) throw new ProviderError("unparseable", true);
+      return response.parsed_output;
+    } catch (err) {
+      if (err instanceof ProviderError) throw err;
       throw mapError(err);
     }
   }

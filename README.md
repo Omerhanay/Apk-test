@@ -52,5 +52,6 @@ After editing `contracts/agent-tools.json`, copy it to `app/assets/contracts/`
 | Localization: English + Turkish, language picker | done |
 | 10 (core) Permission firewall + action state machine | done; grants editable in Settings |
 | 4 Onboarding, app lock, relay pairing, permissions + activity screens | done |
-| 5 Memory | next |
-| 6-12 Tasks, documents, retrieval, agent loop, proactive, hardening | planned |
+| 5 Memory: capture (AI-assisted or offline), corrections with history, Turkish-aware search | done |
+| 6 Tasks, events, reminders | next |
+| 7-12 Documents, retrieval, agent loop, proactive, hardening | planned |

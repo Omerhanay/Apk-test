@@ -22,6 +22,49 @@ class RelayInfo {
   final String promptVersion;
 }
 
+/// Structured reading of something the user said, from the relay's parser.
+class MemoryParseResult {
+  const MemoryParseResult({
+    required this.op,
+    required this.content,
+    required this.category,
+    required this.kind,
+    this.subject,
+    this.predicate,
+    this.value,
+    this.validUntil,
+    required this.sensitivity,
+    required this.confidence,
+    this.needsClarification,
+  });
+
+  factory MemoryParseResult.fromJson(Map<String, dynamic> j) => MemoryParseResult(
+        op: j['op'] as String,
+        content: j['content'] as String,
+        category: j['category'] as String,
+        kind: j['kind'] as String,
+        subject: j['subject'] as String?,
+        predicate: j['predicate'] as String?,
+        value: j['value'] as String?,
+        validUntil: DateTime.tryParse(j['valid_until'] as String? ?? ''),
+        sensitivity: j['sensitivity'] as String,
+        confidence: (j['confidence'] as num).toDouble(),
+        needsClarification: j['needs_clarification'] as String?,
+      );
+
+  final String op; // create | retract
+  final String content;
+  final String category;
+  final String kind;
+  final String? subject;
+  final String? predicate;
+  final String? value;
+  final DateTime? validUntil;
+  final String sensitivity;
+  final double confidence;
+  final String? needsClarification;
+}
+
 /// Talks to the user's LIFE OS relay. The relay holds the LLM API key, so the
 /// app never does.
 class RelayClient {
@@ -44,6 +87,30 @@ class RelayClient {
         .timeout(const Duration(seconds: 15)));
     final body = jsonDecode(res.body) as Map<String, dynamic>;
     return RelayInfo(provider: body['provider'] as String, promptVersion: body['prompt_version'] as String);
+  }
+
+  /// Sends one statement to be structured. Only the text, the date, the
+  /// language and the keys (not contents) of existing facts are sent.
+  Future<MemoryParseResult> parseMemory({
+    required String text,
+    required String locale,
+    required DateTime today,
+    required List<({String subject, String predicate})> knownSubjects,
+  }) async {
+    final day = '${today.year.toString().padLeft(4, '0')}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}';
+    final res = await _send(() => _http
+        .post(
+          _credentials.baseUrl.resolve('/v1/memory/parse'),
+          headers: _headers,
+          body: jsonEncode({
+            'text': text,
+            'locale': locale,
+            'today': day,
+            'known_subjects': [for (final k in knownSubjects) {'subject': k.subject, 'predicate': k.predicate}],
+          }),
+        )
+        .timeout(const Duration(seconds: 45)));
+    return MemoryParseResult.fromJson(jsonDecode(res.body) as Map<String, dynamic>);
   }
 
   Future<AgentTurn> agentTurn(List<WireMessage> messages) async {

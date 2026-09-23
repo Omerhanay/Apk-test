@@ -1,4 +1,4 @@
-import type { AgentTurnResult, LlmProvider, Message, ToolSpec } from "./types.js";
+import type { AgentTurnResult, LlmProvider, MemoryParse, MemoryParseRequest, Message, ToolSpec } from "./types.js";
 
 /**
  * DEVELOPMENT/TEST ONLY. A deterministic stand-in for a real model so the app and
@@ -22,6 +22,23 @@ export class MockProvider implements LlmProvider {
       ? `[mock] Found ${found.length} relevant result(s).`
       : "I don't have enough information to answer that.";
     return this.result("end_turn", [{ type: "text", text }]);
+  }
+
+  /** Stores the text verbatim as an uncategorized note; it never guesses structure. */
+  async parseMemory(input: { system: string; request: MemoryParseRequest }): Promise<MemoryParse> {
+    return {
+      op: "create",
+      content: input.request.text,
+      category: "other",
+      kind: "semantic",
+      subject: null,
+      predicate: null,
+      value: null,
+      valid_until: null,
+      sensitivity: "normal",
+      confidence: 0.3,
+      needs_clarification: null,
+    };
   }
 
   private result(stop: AgentTurnResult["stop"], content: AgentTurnResult["content"]): AgentTurnResult {

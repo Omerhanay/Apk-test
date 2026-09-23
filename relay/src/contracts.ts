@@ -8,8 +8,18 @@ const repoRoot = resolve(here, "../..");
 
 export const PROMPT_VERSION = "agent.v2";
 
+export const MEMORY_PARSE_PROMPT_VERSION = "memory-parse.v1";
+
+function loadPrompt(version: string): string {
+  return readFileSync(resolve(repoRoot, "relay/prompts", `${version}.md`), "utf8");
+}
+
 export function loadSystemPrompt(): string {
-  return readFileSync(resolve(repoRoot, "relay/prompts", `${PROMPT_VERSION}.md`), "utf8");
+  return loadPrompt(PROMPT_VERSION);
+}
+
+export function loadMemoryParsePrompt(): string {
+  return loadPrompt(MEMORY_PARSE_PROMPT_VERSION);
 }
 
 interface ContractTool extends ToolSpec {

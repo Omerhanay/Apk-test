@@ -136,7 +136,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get memoryEmptyBody =>
-      'LIFE OS\'un hatırladığı her şey, nereden geldiğiyle birlikte burada listelenecek. Herhangi birini düzenleyebilir veya silebilirsiniz.';
+      '+ düğmesiyle LIFE OS\'a hayatınızı anlatın. Hatırladığı her şey, nereden geldiğiyle birlikte burada listelenir; herhangi birini düzenleyebilir veya silebilirsiniz.';
 
   @override
   String get settingsTitle => 'Ayarlar ve gizlilik';
@@ -339,4 +339,186 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get auditRelayRemoved => 'Sunucu bağlantısı kaldırıldı';
+
+  @override
+  String get memoryAdd => 'Bilgi ekle';
+
+  @override
+  String get memoryCaptureHint =>
+      'LIFE OS\'a hayatınızla ilgili bir şey söyleyin';
+
+  @override
+  String get memoryCaptureExample =>
+      'örn. Arabam BYD Seal U. Sabah uçuşlarını tercih ederim.';
+
+  @override
+  String get memoryOrganizeWithAi => 'Yapay zekâ ile düzenle';
+
+  @override
+  String get memoryOrganizeNote =>
+      'Metin, sınıflandırılması için yapay zekâ sunucunuza gönderilir.';
+
+  @override
+  String get memoryContinue => 'Devam';
+
+  @override
+  String get memorySave => 'Kaydet';
+
+  @override
+  String get memoryCategory => 'Kategori';
+
+  @override
+  String get memoryPreviewTitle => 'LIFE OS şunu hatırlayacak';
+
+  @override
+  String get memoryRetractPreviewTitle => 'Artık doğru değil olarak işaretle';
+
+  @override
+  String get memoryRetractNoMatch =>
+      'Eşleşen bir bilgi bulunamadı. Bunun yerine yeni bir not olarak kaydedebilirsiniz.';
+
+  @override
+  String get memorySaveAsNote => 'Not olarak kaydet';
+
+  @override
+  String memoryReplaces(String old) {
+    return 'Şunun yerini alır: $old';
+  }
+
+  @override
+  String get memoryAiUnavailable =>
+      'Yapay zekâ ile düzenlenemedi. Yazdığınız gibi kaydedebilirsiniz.';
+
+  @override
+  String get memorySpecialCategoryNote =>
+      'Çok hassas olarak işaretlendi. Bu telefonda şifreli olarak kalır.';
+
+  @override
+  String get memoryRemembered => 'Hatırlandı';
+
+  @override
+  String get memoryUpdatedKeepsHistory =>
+      'Güncellendi. Önceki hâli geçmişte saklanıyor.';
+
+  @override
+  String get memoryMarkedNotTrue => 'Artık doğru değil olarak işaretlendi';
+
+  @override
+  String get memoryDeleted => 'Silindi';
+
+  @override
+  String get memorySearchHint => 'Bilgilerde ara';
+
+  @override
+  String get memoryNoResults => 'Eşleşen bilgi yok.';
+
+  @override
+  String get memorySourceUser => 'Siz söylediniz';
+
+  @override
+  String get memorySourceDocument => 'Bir belgeden';
+
+  @override
+  String get memorySourceAi => 'Yapay zekâ önerisi';
+
+  @override
+  String get memorySourceIntegration => 'Bağlı bir uygulamadan';
+
+  @override
+  String get memorySourceSystem => 'LIFE OS ekledi';
+
+  @override
+  String memoryValidUntil(String date) {
+    return '$date tarihine kadar geçerli';
+  }
+
+  @override
+  String memoryEndedOn(String date) {
+    return '$date tarihinden beri geçerli değil';
+  }
+
+  @override
+  String memoryRecordedOn(String date) {
+    return '$date tarihinde kaydedildi';
+  }
+
+  @override
+  String get memoryHistory => 'GEÇMİŞ';
+
+  @override
+  String get memoryHistoryEmpty => 'Önceki bir sürüm yok.';
+
+  @override
+  String get memoryHistoryEdited => 'Düzenlemeden önce';
+
+  @override
+  String get memoryHistoryReplaced => 'Değiştirildi';
+
+  @override
+  String get memoryHistoryRetracted => 'Artık doğru değil olarak işaretlendi';
+
+  @override
+  String get memoryEdit => 'Düzenle';
+
+  @override
+  String get memoryNoLongerTrue => 'Artık doğru değil';
+
+  @override
+  String get memoryDelete => 'Sil';
+
+  @override
+  String get memoryDeleteConfirmTitle => 'Bu bilgi silinsin mi?';
+
+  @override
+  String get memoryDeleteConfirmBody =>
+      'Geçmişiyle birlikte bu telefondan kaldırılacak. Bu işlem geri alınamaz.';
+
+  @override
+  String get memoryCancel => 'Vazgeç';
+
+  @override
+  String get catFamily => 'Aile';
+
+  @override
+  String get catVehicle => 'Araç';
+
+  @override
+  String get catHome => 'Ev';
+
+  @override
+  String get catHealth => 'Sağlık';
+
+  @override
+  String get catWork => 'İş';
+
+  @override
+  String get catFinance => 'Finans';
+
+  @override
+  String get catTravel => 'Seyahat';
+
+  @override
+  String get catPreference => 'Tercihler';
+
+  @override
+  String get catRoutine => 'Rutinler';
+
+  @override
+  String get catOther => 'Diğer';
+
+  @override
+  String get auditMemoryCreated => 'Bilgi eklendi';
+
+  @override
+  String get auditMemoryEdited => 'Bilgi düzenlendi';
+
+  @override
+  String get auditMemoryRetracted =>
+      'Bilgi artık doğru değil olarak işaretlendi';
+
+  @override
+  String get auditMemorySuperseded => 'Bilgi yenisiyle değiştirildi';
+
+  @override
+  String get auditMemoryDeleted => 'Bilgi silindi';
 }

@@ -335,7 +335,7 @@ abstract class AppLocalizations {
   /// No description provided for @memoryEmptyBody.
   ///
   /// In en, this message translates to:
-  /// **'Everything LIFE OS remembers will be listed here, with where it came from. You can edit or delete any of it.'**
+  /// **'Tell LIFE OS about your life with the + button. Everything it remembers is listed here with where it came from, and you can edit or delete any of it.'**
   String get memoryEmptyBody;
 
   /// No description provided for @settingsTitle.
@@ -715,6 +715,336 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Relay disconnected'**
   String get auditRelayRemoved;
+
+  /// No description provided for @memoryAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add memory'**
+  String get memoryAdd;
+
+  /// No description provided for @memoryCaptureHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell LIFE OS something about your life'**
+  String get memoryCaptureHint;
+
+  /// No description provided for @memoryCaptureExample.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. My car is a BYD Seal U. I prefer morning flights.'**
+  String get memoryCaptureExample;
+
+  /// No description provided for @memoryOrganizeWithAi.
+  ///
+  /// In en, this message translates to:
+  /// **'Organize with AI'**
+  String get memoryOrganizeWithAi;
+
+  /// No description provided for @memoryOrganizeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The text is sent to your AI relay to categorize it.'**
+  String get memoryOrganizeNote;
+
+  /// No description provided for @memoryContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get memoryContinue;
+
+  /// No description provided for @memorySave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get memorySave;
+
+  /// No description provided for @memoryCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get memoryCategory;
+
+  /// No description provided for @memoryPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'LIFE OS will remember'**
+  String get memoryPreviewTitle;
+
+  /// No description provided for @memoryRetractPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as no longer true'**
+  String get memoryRetractPreviewTitle;
+
+  /// No description provided for @memoryRetractNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching memory was found. You can save this as a new note instead.'**
+  String get memoryRetractNoMatch;
+
+  /// No description provided for @memorySaveAsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as note'**
+  String get memorySaveAsNote;
+
+  /// No description provided for @memoryReplaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Replaces: {old}'**
+  String memoryReplaces(String old);
+
+  /// No description provided for @memoryAiUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t organize it with AI. You can save it as written.'**
+  String get memoryAiUnavailable;
+
+  /// No description provided for @memorySpecialCategoryNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked as highly sensitive. It stays encrypted on this phone.'**
+  String get memorySpecialCategoryNote;
+
+  /// No description provided for @memoryRemembered.
+  ///
+  /// In en, this message translates to:
+  /// **'Remembered'**
+  String get memoryRemembered;
+
+  /// No description provided for @memoryUpdatedKeepsHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated. The previous version is kept in history.'**
+  String get memoryUpdatedKeepsHistory;
+
+  /// No description provided for @memoryMarkedNotTrue.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked as no longer true'**
+  String get memoryMarkedNotTrue;
+
+  /// No description provided for @memoryDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get memoryDeleted;
+
+  /// No description provided for @memorySearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search memories'**
+  String get memorySearchHint;
+
+  /// No description provided for @memoryNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No memories match.'**
+  String get memoryNoResults;
+
+  /// No description provided for @memorySourceUser.
+  ///
+  /// In en, this message translates to:
+  /// **'You told LIFE OS'**
+  String get memorySourceUser;
+
+  /// No description provided for @memorySourceDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'From a document'**
+  String get memorySourceDocument;
+
+  /// No description provided for @memorySourceAi.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested by AI'**
+  String get memorySourceAi;
+
+  /// No description provided for @memorySourceIntegration.
+  ///
+  /// In en, this message translates to:
+  /// **'From a connected app'**
+  String get memorySourceIntegration;
+
+  /// No description provided for @memorySourceSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Added by LIFE OS'**
+  String get memorySourceSystem;
+
+  /// No description provided for @memoryValidUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid until {date}'**
+  String memoryValidUntil(String date);
+
+  /// No description provided for @memoryEndedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'No longer true since {date}'**
+  String memoryEndedOn(String date);
+
+  /// No description provided for @memoryRecordedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded {date}'**
+  String memoryRecordedOn(String date);
+
+  /// No description provided for @memoryHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'HISTORY'**
+  String get memoryHistory;
+
+  /// No description provided for @memoryHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No earlier versions.'**
+  String get memoryHistoryEmpty;
+
+  /// No description provided for @memoryHistoryEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'Before editing'**
+  String get memoryHistoryEdited;
+
+  /// No description provided for @memoryHistoryReplaced.
+  ///
+  /// In en, this message translates to:
+  /// **'Replaced'**
+  String get memoryHistoryReplaced;
+
+  /// No description provided for @memoryHistoryRetracted.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked no longer true'**
+  String get memoryHistoryRetracted;
+
+  /// No description provided for @memoryEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get memoryEdit;
+
+  /// No description provided for @memoryNoLongerTrue.
+  ///
+  /// In en, this message translates to:
+  /// **'No longer true'**
+  String get memoryNoLongerTrue;
+
+  /// No description provided for @memoryDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get memoryDelete;
+
+  /// No description provided for @memoryDeleteConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this memory?'**
+  String get memoryDeleteConfirmTitle;
+
+  /// No description provided for @memoryDeleteConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It will be removed from this phone with its history. This can\'t be undone.'**
+  String get memoryDeleteConfirmBody;
+
+  /// No description provided for @memoryCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get memoryCancel;
+
+  /// No description provided for @catFamily.
+  ///
+  /// In en, this message translates to:
+  /// **'Family'**
+  String get catFamily;
+
+  /// No description provided for @catVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle'**
+  String get catVehicle;
+
+  /// No description provided for @catHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get catHome;
+
+  /// No description provided for @catHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get catHealth;
+
+  /// No description provided for @catWork.
+  ///
+  /// In en, this message translates to:
+  /// **'Work'**
+  String get catWork;
+
+  /// No description provided for @catFinance.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance'**
+  String get catFinance;
+
+  /// No description provided for @catTravel.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel'**
+  String get catTravel;
+
+  /// No description provided for @catPreference.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get catPreference;
+
+  /// No description provided for @catRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Routines'**
+  String get catRoutine;
+
+  /// No description provided for @catOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get catOther;
+
+  /// No description provided for @auditMemoryCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Memory added'**
+  String get auditMemoryCreated;
+
+  /// No description provided for @auditMemoryEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'Memory edited'**
+  String get auditMemoryEdited;
+
+  /// No description provided for @auditMemoryRetracted.
+  ///
+  /// In en, this message translates to:
+  /// **'Memory marked no longer true'**
+  String get auditMemoryRetracted;
+
+  /// No description provided for @auditMemorySuperseded.
+  ///
+  /// In en, this message translates to:
+  /// **'Memory replaced by a newer one'**
+  String get auditMemorySuperseded;
+
+  /// No description provided for @auditMemoryDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Memory deleted'**
+  String get auditMemoryDeleted;
 }
 
 class _AppLocalizationsDelegate
