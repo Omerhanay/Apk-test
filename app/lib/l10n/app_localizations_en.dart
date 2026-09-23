@@ -652,4 +652,198 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quickAddRepeatTooltip => 'Repeat';
+
+  @override
+  String get docAdd => 'Add document';
+
+  @override
+  String get docChooseFile => 'Choose a file';
+
+  @override
+  String get docTakePhoto => 'Take a photo';
+
+  @override
+  String get docReading => 'Reading the document on this phone…';
+
+  @override
+  String get docAlreadyAdded => 'This document was already added.';
+
+  @override
+  String get docUnsupported => 'Only PDF, JPG and PNG files up to 25 MB.';
+
+  @override
+  String get docReviewTitle => 'Review';
+
+  @override
+  String get docReviewIntro =>
+      'Check what LIFE OS read. Only the items you keep are saved.';
+
+  @override
+  String get docType => 'Type';
+
+  @override
+  String get docFindWithAi => 'Find more with AI';
+
+  @override
+  String get docAiNote =>
+      'Sends the document\'s text (not the file) to your AI relay. Every suggestion must quote the document.';
+
+  @override
+  String get docLocalOnlyNote =>
+      'ID and health documents are read on this phone only.';
+
+  @override
+  String docAiFound(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count more items found',
+      one: '1 more item found',
+      zero: 'The AI found nothing new.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get docAiFailed => 'Couldn\'t reach the AI.';
+
+  @override
+  String get docSourceLocal => 'Read on this phone';
+
+  @override
+  String get docNoFields =>
+      'No dates or numbers were found. You can still keep the document.';
+
+  @override
+  String get docOcrFailed =>
+      'The text couldn\'t be read. You can still keep the file.';
+
+  @override
+  String docRemindBefore(int days) {
+    return 'Remind me $days days before';
+  }
+
+  @override
+  String get docSaved => 'Saved';
+
+  @override
+  String docSavedWithReminder(String date) {
+    return 'Saved. Reminder on $date.';
+  }
+
+  @override
+  String docReminderTitle(String title, String date) {
+    return '$title — expires $date';
+  }
+
+  @override
+  String get docNeedsReview => 'Needs review';
+
+  @override
+  String docExpires(String date) {
+    return 'Expires $date';
+  }
+
+  @override
+  String get docFields => 'DETAILS';
+
+  @override
+  String get docText => 'TEXT';
+
+  @override
+  String get docDelete => 'Delete document';
+
+  @override
+  String get docDeleteConfirmTitle => 'Delete this document?';
+
+  @override
+  String get docDeleteConfirmBody =>
+      'The file, its details and its reminders will be removed from this phone.';
+
+  @override
+  String get docDeleted => 'Document deleted';
+
+  @override
+  String get docEditValue => 'Edit';
+
+  @override
+  String get fieldExpiresOn => 'Expires';
+
+  @override
+  String get fieldStartsOn => 'Starts';
+
+  @override
+  String get fieldDueOn => 'Payment due';
+
+  @override
+  String get fieldIssuedOn => 'Issued';
+
+  @override
+  String get fieldRenewsOn => 'Renewal';
+
+  @override
+  String get fieldPolicyNumber => 'Policy number';
+
+  @override
+  String get fieldProvider => 'Provider';
+
+  @override
+  String get fieldVehiclePlate => 'Plate';
+
+  @override
+  String get fieldVehicleModel => 'Vehicle';
+
+  @override
+  String get fieldAmount => 'Amount';
+
+  @override
+  String get fieldReference => 'Reference';
+
+  @override
+  String get docTypeInsurance => 'Insurance';
+
+  @override
+  String get docTypeVehicleRegistration => 'Vehicle registration';
+
+  @override
+  String get docTypePassport => 'Passport';
+
+  @override
+  String get docTypeIdCard => 'ID card';
+
+  @override
+  String get docTypeDriverLicense => 'Driving licence';
+
+  @override
+  String get docTypeWarranty => 'Warranty';
+
+  @override
+  String get docTypeInvoice => 'Invoice';
+
+  @override
+  String get docTypeReceipt => 'Receipt';
+
+  @override
+  String get docTypeContract => 'Contract';
+
+  @override
+  String get docTypeTravel => 'Travel';
+
+  @override
+  String get docTypeMedical => 'Medical';
+
+  @override
+  String get docTypeOther => 'Other';
+
+  @override
+  String get auditDocumentAdded => 'Document added';
+
+  @override
+  String get auditDocumentReviewed => 'Document reviewed';
+
+  @override
+  String get auditDocumentDeleted => 'Document deleted';
+
+  @override
+  String get auditDocumentAiFields => 'AI suggestions checked';
 }

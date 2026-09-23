@@ -65,6 +65,22 @@ class MemoryParseResult {
   final String? needsClarification;
 }
 
+/// One field the AI read from a document, with the passage it came from.
+class AiDocumentField {
+  const AiDocumentField({required this.key, required this.value, required this.quote, required this.confidence});
+  final String key;
+  final String value;
+  final String quote;
+  final double confidence;
+}
+
+class AiDocumentExtraction {
+  const AiDocumentExtraction({required this.docType, required this.title, required this.fields});
+  final String docType;
+  final String title;
+  final List<AiDocumentField> fields;
+}
+
 /// Talks to the user's LIFE OS relay. The relay holds the LLM API key, so the
 /// app never does.
 class RelayClient {
@@ -85,7 +101,7 @@ class RelayClient {
     final res = await _send(() => _http
         .get(_credentials.baseUrl.resolve('/v1/ping'), headers: _headers)
         .timeout(const Duration(seconds: 15)));
-    final body = jsonDecode(res.body) as Map<String, dynamic>;
+    final body = jsonDecode(_utf8(res)) as Map<String, dynamic>;
     return RelayInfo(provider: body['provider'] as String, promptVersion: body['prompt_version'] as String);
   }
 
@@ -110,7 +126,38 @@ class RelayClient {
           }),
         )
         .timeout(const Duration(seconds: 45)));
-    return MemoryParseResult.fromJson(jsonDecode(res.body) as Map<String, dynamic>);
+    return MemoryParseResult.fromJson(jsonDecode(_utf8(res)) as Map<String, dynamic>);
+  }
+
+  /// Sends a document's OCR text (never the file) for field extraction.
+  Future<AiDocumentExtraction> extractDocument({
+    required String text,
+    required String docType,
+    required String locale,
+    required DateTime today,
+  }) async {
+    final day = '${today.year.toString().padLeft(4, '0')}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}';
+    final res = await _send(() => _http
+        .post(
+          _credentials.baseUrl.resolve('/v1/document/extract'),
+          headers: _headers,
+          body: jsonEncode({'text': text, 'doc_type': docType, 'locale': locale, 'today': day}),
+        )
+        .timeout(const Duration(seconds: 90)));
+    final j = jsonDecode(_utf8(res)) as Map<String, dynamic>;
+    return AiDocumentExtraction(
+      docType: j['doc_type'] as String,
+      title: j['title'] as String? ?? '',
+      fields: [
+        for (final f in (j['fields'] as List).cast<Map<String, dynamic>>())
+          AiDocumentField(
+            key: f['key'] as String,
+            value: f['value'] as String,
+            quote: f['quote'] as String,
+            confidence: (f['confidence'] as num).toDouble(),
+          ),
+      ],
+    );
   }
 
   Future<AgentTurn> agentTurn(List<WireMessage> messages) async {
@@ -121,7 +168,7 @@ class RelayClient {
           body: jsonEncode({'messages': messages.map((m) => m.toJson()).toList()}),
         )
         .timeout(timeout));
-    return AgentTurn.fromJson(jsonDecode(res.body) as Map<String, dynamic>);
+    return AgentTurn.fromJson(jsonDecode(_utf8(res)) as Map<String, dynamic>);
   }
 
   Future<http.Response> _send(Future<http.Response> Function() request) async {
@@ -138,7 +185,7 @@ class RelayClient {
     var code = 'http_${res.statusCode}';
     var retryable = res.statusCode >= 500 || res.statusCode == 429;
     try {
-      final body = jsonDecode(res.body) as Map<String, dynamic>;
+      final body = jsonDecode(_utf8(res)) as Map<String, dynamic>;
       code = body['error'] as String? ?? code;
       retryable = body['retryable'] as bool? ?? retryable;
     } on FormatException {
@@ -146,4 +193,8 @@ class RelayClient {
     }
     throw RelayException(code, retryable: retryable);
   }
+
+  /// The relay always sends UTF-8 JSON. Decode the bytes directly: without a
+  /// charset header, `http` would fall back to Latin-1 and garble Turkish text.
+  static String _utf8(http.Response res) => utf8.decode(res.bodyBytes);
 }

@@ -1,5 +1,13 @@
 import { loadConfig } from "./config.js";
-import { MEMORY_PARSE_PROMPT_VERSION, PROMPT_VERSION, loadMemoryParsePrompt, loadSystemPrompt, loadToolSpecs } from "./contracts.js";
+import {
+  DOCUMENT_EXTRACT_PROMPT_VERSION,
+  MEMORY_PARSE_PROMPT_VERSION,
+  PROMPT_VERSION,
+  loadDocumentExtractPrompt,
+  loadMemoryParsePrompt,
+  loadSystemPrompt,
+  loadToolSpecs,
+} from "./contracts.js";
 import { AnthropicProvider } from "./llm/anthropic.js";
 import { MockProvider } from "./llm/mock.js";
 import { buildServer } from "./server.js";
@@ -18,6 +26,8 @@ const app = await buildServer({
   promptVersion: PROMPT_VERSION,
   memoryParsePrompt: loadMemoryParsePrompt(),
   memoryParsePromptVersion: MEMORY_PARSE_PROMPT_VERSION,
+  documentExtractPrompt: loadDocumentExtractPrompt(),
+  documentExtractPromptVersion: DOCUMENT_EXTRACT_PROMPT_VERSION,
   tools: loadToolSpecs(),
   rateLimitPerMinute: config.RATE_LIMIT_PER_MINUTE,
   logLevel: config.LOG_LEVEL,

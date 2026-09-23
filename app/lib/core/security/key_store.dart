@@ -29,6 +29,7 @@ class KeyStore {
   final SecretStore _storage;
 
   static const _dbKey = 'db_key_v1';
+  static const _fileKey = 'file_key_v1';
   static const _relayToken = 'relay_token_v1';
   static const _relayUrl = 'relay_url_v1';
 
@@ -36,12 +37,17 @@ class KeyStore {
   static const minTokenLength = 32;
 
   /// 256-bit database key as hex, created on first use.
-  Future<String> databaseKey() async {
-    final existing = await _storage.read(_dbKey);
+  Future<String> databaseKey() => _randomKey(_dbKey);
+
+  /// 256-bit key for encrypted document files, separate from the database key.
+  Future<String> fileKey() => _randomKey(_fileKey);
+
+  Future<String> _randomKey(String name) async {
+    final existing = await _storage.read(name);
     if (existing != null) return existing;
     final rng = Random.secure();
     final key = List.generate(32, (_) => rng.nextInt(256).toRadixString(16).padLeft(2, '0')).join();
-    await _storage.write(_dbKey, key);
+    await _storage.write(name, key);
     return key;
   }
 

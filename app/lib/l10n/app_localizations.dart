@@ -1291,6 +1291,348 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Repeat'**
   String get quickAddRepeatTooltip;
+
+  /// No description provided for @docAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add document'**
+  String get docAdd;
+
+  /// No description provided for @docChooseFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a file'**
+  String get docChooseFile;
+
+  /// No description provided for @docTakePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get docTakePhoto;
+
+  /// No description provided for @docReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading the document on this phone…'**
+  String get docReading;
+
+  /// No description provided for @docAlreadyAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'This document was already added.'**
+  String get docAlreadyAdded;
+
+  /// No description provided for @docUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Only PDF, JPG and PNG files up to 25 MB.'**
+  String get docUnsupported;
+
+  /// No description provided for @docReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get docReviewTitle;
+
+  /// No description provided for @docReviewIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Check what LIFE OS read. Only the items you keep are saved.'**
+  String get docReviewIntro;
+
+  /// No description provided for @docType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get docType;
+
+  /// No description provided for @docFindWithAi.
+  ///
+  /// In en, this message translates to:
+  /// **'Find more with AI'**
+  String get docFindWithAi;
+
+  /// No description provided for @docAiNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Sends the document\'s text (not the file) to your AI relay. Every suggestion must quote the document.'**
+  String get docAiNote;
+
+  /// No description provided for @docLocalOnlyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'ID and health documents are read on this phone only.'**
+  String get docLocalOnlyNote;
+
+  /// No description provided for @docAiFound.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{The AI found nothing new.} =1{1 more item found} other{{count} more items found}}'**
+  String docAiFound(int count);
+
+  /// No description provided for @docAiFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t reach the AI.'**
+  String get docAiFailed;
+
+  /// No description provided for @docSourceLocal.
+  ///
+  /// In en, this message translates to:
+  /// **'Read on this phone'**
+  String get docSourceLocal;
+
+  /// No description provided for @docNoFields.
+  ///
+  /// In en, this message translates to:
+  /// **'No dates or numbers were found. You can still keep the document.'**
+  String get docNoFields;
+
+  /// No description provided for @docOcrFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The text couldn\'t be read. You can still keep the file.'**
+  String get docOcrFailed;
+
+  /// No description provided for @docRemindBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me {days} days before'**
+  String docRemindBefore(int days);
+
+  /// No description provided for @docSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get docSaved;
+
+  /// No description provided for @docSavedWithReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved. Reminder on {date}.'**
+  String docSavedWithReminder(String date);
+
+  /// No description provided for @docReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} — expires {date}'**
+  String docReminderTitle(String title, String date);
+
+  /// No description provided for @docNeedsReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs review'**
+  String get docNeedsReview;
+
+  /// No description provided for @docExpires.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires {date}'**
+  String docExpires(String date);
+
+  /// No description provided for @docFields.
+  ///
+  /// In en, this message translates to:
+  /// **'DETAILS'**
+  String get docFields;
+
+  /// No description provided for @docText.
+  ///
+  /// In en, this message translates to:
+  /// **'TEXT'**
+  String get docText;
+
+  /// No description provided for @docDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete document'**
+  String get docDelete;
+
+  /// No description provided for @docDeleteConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this document?'**
+  String get docDeleteConfirmTitle;
+
+  /// No description provided for @docDeleteConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The file, its details and its reminders will be removed from this phone.'**
+  String get docDeleteConfirmBody;
+
+  /// No description provided for @docDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Document deleted'**
+  String get docDeleted;
+
+  /// No description provided for @docEditValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get docEditValue;
+
+  /// No description provided for @fieldExpiresOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires'**
+  String get fieldExpiresOn;
+
+  /// No description provided for @fieldStartsOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts'**
+  String get fieldStartsOn;
+
+  /// No description provided for @fieldDueOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment due'**
+  String get fieldDueOn;
+
+  /// No description provided for @fieldIssuedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Issued'**
+  String get fieldIssuedOn;
+
+  /// No description provided for @fieldRenewsOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Renewal'**
+  String get fieldRenewsOn;
+
+  /// No description provided for @fieldPolicyNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Policy number'**
+  String get fieldPolicyNumber;
+
+  /// No description provided for @fieldProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'Provider'**
+  String get fieldProvider;
+
+  /// No description provided for @fieldVehiclePlate.
+  ///
+  /// In en, this message translates to:
+  /// **'Plate'**
+  String get fieldVehiclePlate;
+
+  /// No description provided for @fieldVehicleModel.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle'**
+  String get fieldVehicleModel;
+
+  /// No description provided for @fieldAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get fieldAmount;
+
+  /// No description provided for @fieldReference.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference'**
+  String get fieldReference;
+
+  /// No description provided for @docTypeInsurance.
+  ///
+  /// In en, this message translates to:
+  /// **'Insurance'**
+  String get docTypeInsurance;
+
+  /// No description provided for @docTypeVehicleRegistration.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle registration'**
+  String get docTypeVehicleRegistration;
+
+  /// No description provided for @docTypePassport.
+  ///
+  /// In en, this message translates to:
+  /// **'Passport'**
+  String get docTypePassport;
+
+  /// No description provided for @docTypeIdCard.
+  ///
+  /// In en, this message translates to:
+  /// **'ID card'**
+  String get docTypeIdCard;
+
+  /// No description provided for @docTypeDriverLicense.
+  ///
+  /// In en, this message translates to:
+  /// **'Driving licence'**
+  String get docTypeDriverLicense;
+
+  /// No description provided for @docTypeWarranty.
+  ///
+  /// In en, this message translates to:
+  /// **'Warranty'**
+  String get docTypeWarranty;
+
+  /// No description provided for @docTypeInvoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoice'**
+  String get docTypeInvoice;
+
+  /// No description provided for @docTypeReceipt.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt'**
+  String get docTypeReceipt;
+
+  /// No description provided for @docTypeContract.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract'**
+  String get docTypeContract;
+
+  /// No description provided for @docTypeTravel.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel'**
+  String get docTypeTravel;
+
+  /// No description provided for @docTypeMedical.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical'**
+  String get docTypeMedical;
+
+  /// No description provided for @docTypeOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get docTypeOther;
+
+  /// No description provided for @auditDocumentAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Document added'**
+  String get auditDocumentAdded;
+
+  /// No description provided for @auditDocumentReviewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Document reviewed'**
+  String get auditDocumentReviewed;
+
+  /// No description provided for @auditDocumentDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Document deleted'**
+  String get auditDocumentDeleted;
+
+  /// No description provided for @auditDocumentAiFields.
+  ///
+  /// In en, this message translates to:
+  /// **'AI suggestions checked'**
+  String get auditDocumentAiFields;
 }
 
 class _AppLocalizationsDelegate

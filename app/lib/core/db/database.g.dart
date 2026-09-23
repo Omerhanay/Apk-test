@@ -3905,6 +3905,15 @@ class $DocumentsTable extends Documents
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _mimeTypeMeta = const VerificationMeta(
     'mimeType',
   );
@@ -4018,6 +4027,7 @@ class $DocumentsTable extends Documents
     updatedAt,
     deletedAt,
     fileName,
+    title,
     mimeType,
     sha256,
     sizeBytes,
@@ -4086,6 +4096,12 @@ class $DocumentsTable extends Documents
       );
     } else if (isInserting) {
       context.missing(_fileNameMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
     }
     if (data.containsKey('mime_type')) {
       context.handle(
@@ -4204,6 +4220,10 @@ class $DocumentsTable extends Documents
         DriftSqlType.string,
         data['${effectivePrefix}file_name'],
       )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      ),
       mimeType: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}mime_type'],
@@ -4264,6 +4284,9 @@ class Document extends DataClass implements Insertable<Document> {
   final DateTime updatedAt;
   final DateTime? deletedAt;
   final String fileName;
+
+  /// Schema v3: a readable name, e.g. "Kasko poliçesi – Anadolu Sigorta".
+  final String? title;
   final String mimeType;
   final String sha256;
   final int sizeBytes;
@@ -4285,6 +4308,7 @@ class Document extends DataClass implements Insertable<Document> {
     required this.updatedAt,
     this.deletedAt,
     required this.fileName,
+    this.title,
     required this.mimeType,
     required this.sha256,
     required this.sizeBytes,
@@ -4319,6 +4343,9 @@ class Document extends DataClass implements Insertable<Document> {
       map['deleted_at'] = Variable<DateTime>(deletedAt);
     }
     map['file_name'] = Variable<String>(fileName);
+    if (!nullToAbsent || title != null) {
+      map['title'] = Variable<String>(title);
+    }
     map['mime_type'] = Variable<String>(mimeType);
     map['sha256'] = Variable<String>(sha256);
     map['size_bytes'] = Variable<int>(sizeBytes);
@@ -4354,6 +4381,9 @@ class Document extends DataClass implements Insertable<Document> {
           ? const Value.absent()
           : Value(deletedAt),
       fileName: Value(fileName),
+      title: title == null && nullToAbsent
+          ? const Value.absent()
+          : Value(title),
       mimeType: Value(mimeType),
       sha256: Value(sha256),
       sizeBytes: Value(sizeBytes),
@@ -4391,6 +4421,7 @@ class Document extends DataClass implements Insertable<Document> {
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
       fileName: serializer.fromJson<String>(json['fileName']),
+      title: serializer.fromJson<String?>(json['title']),
       mimeType: serializer.fromJson<String>(json['mimeType']),
       sha256: serializer.fromJson<String>(json['sha256']),
       sizeBytes: serializer.fromJson<int>(json['sizeBytes']),
@@ -4421,6 +4452,7 @@ class Document extends DataClass implements Insertable<Document> {
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'deletedAt': serializer.toJson<DateTime?>(deletedAt),
       'fileName': serializer.toJson<String>(fileName),
+      'title': serializer.toJson<String?>(title),
       'mimeType': serializer.toJson<String>(mimeType),
       'sha256': serializer.toJson<String>(sha256),
       'sizeBytes': serializer.toJson<int>(sizeBytes),
@@ -4445,6 +4477,7 @@ class Document extends DataClass implements Insertable<Document> {
     DateTime? updatedAt,
     Value<DateTime?> deletedAt = const Value.absent(),
     String? fileName,
+    Value<String?> title = const Value.absent(),
     String? mimeType,
     String? sha256,
     int? sizeBytes,
@@ -4464,6 +4497,7 @@ class Document extends DataClass implements Insertable<Document> {
     updatedAt: updatedAt ?? this.updatedAt,
     deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
     fileName: fileName ?? this.fileName,
+    title: title.present ? title.value : this.title,
     mimeType: mimeType ?? this.mimeType,
     sha256: sha256 ?? this.sha256,
     sizeBytes: sizeBytes ?? this.sizeBytes,
@@ -4491,6 +4525,7 @@ class Document extends DataClass implements Insertable<Document> {
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
       fileName: data.fileName.present ? data.fileName.value : this.fileName,
+      title: data.title.present ? data.title.value : this.title,
       mimeType: data.mimeType.present ? data.mimeType.value : this.mimeType,
       sha256: data.sha256.present ? data.sha256.value : this.sha256,
       sizeBytes: data.sizeBytes.present ? data.sizeBytes.value : this.sizeBytes,
@@ -4519,6 +4554,7 @@ class Document extends DataClass implements Insertable<Document> {
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
           ..write('fileName: $fileName, ')
+          ..write('title: $title, ')
           ..write('mimeType: $mimeType, ')
           ..write('sha256: $sha256, ')
           ..write('sizeBytes: $sizeBytes, ')
@@ -4543,6 +4579,7 @@ class Document extends DataClass implements Insertable<Document> {
     updatedAt,
     deletedAt,
     fileName,
+    title,
     mimeType,
     sha256,
     sizeBytes,
@@ -4566,6 +4603,7 @@ class Document extends DataClass implements Insertable<Document> {
           other.updatedAt == this.updatedAt &&
           other.deletedAt == this.deletedAt &&
           other.fileName == this.fileName &&
+          other.title == this.title &&
           other.mimeType == this.mimeType &&
           other.sha256 == this.sha256 &&
           other.sizeBytes == this.sizeBytes &&
@@ -4587,6 +4625,7 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
   final Value<DateTime> updatedAt;
   final Value<DateTime?> deletedAt;
   final Value<String> fileName;
+  final Value<String?> title;
   final Value<String> mimeType;
   final Value<String> sha256;
   final Value<int> sizeBytes;
@@ -4607,6 +4646,7 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
     this.fileName = const Value.absent(),
+    this.title = const Value.absent(),
     this.mimeType = const Value.absent(),
     this.sha256 = const Value.absent(),
     this.sizeBytes = const Value.absent(),
@@ -4628,6 +4668,7 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     required DateTime updatedAt,
     this.deletedAt = const Value.absent(),
     required String fileName,
+    this.title = const Value.absent(),
     required String mimeType,
     required String sha256,
     required int sizeBytes,
@@ -4657,6 +4698,7 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     Expression<DateTime>? updatedAt,
     Expression<DateTime>? deletedAt,
     Expression<String>? fileName,
+    Expression<String>? title,
     Expression<String>? mimeType,
     Expression<String>? sha256,
     Expression<int>? sizeBytes,
@@ -4678,6 +4720,7 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
       if (updatedAt != null) 'updated_at': updatedAt,
       if (deletedAt != null) 'deleted_at': deletedAt,
       if (fileName != null) 'file_name': fileName,
+      if (title != null) 'title': title,
       if (mimeType != null) 'mime_type': mimeType,
       if (sha256 != null) 'sha256': sha256,
       if (sizeBytes != null) 'size_bytes': sizeBytes,
@@ -4702,6 +4745,7 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     Value<DateTime>? updatedAt,
     Value<DateTime?>? deletedAt,
     Value<String>? fileName,
+    Value<String?>? title,
     Value<String>? mimeType,
     Value<String>? sha256,
     Value<int>? sizeBytes,
@@ -4723,6 +4767,7 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
       updatedAt: updatedAt ?? this.updatedAt,
       deletedAt: deletedAt ?? this.deletedAt,
       fileName: fileName ?? this.fileName,
+      title: title ?? this.title,
       mimeType: mimeType ?? this.mimeType,
       sha256: sha256 ?? this.sha256,
       sizeBytes: sizeBytes ?? this.sizeBytes,
@@ -4771,6 +4816,9 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
     if (fileName.present) {
       map['file_name'] = Variable<String>(fileName.value);
     }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
     if (mimeType.present) {
       map['mime_type'] = Variable<String>(mimeType.value);
     }
@@ -4818,6 +4866,7 @@ class DocumentsCompanion extends UpdateCompanion<Document> {
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
           ..write('fileName: $fileName, ')
+          ..write('title: $title, ')
           ..write('mimeType: $mimeType, ')
           ..write('sha256: $sha256, ')
           ..write('sizeBytes: $sizeBytes, ')
@@ -4912,6 +4961,25 @@ class $DocumentExtractionsTable extends DocumentExtractions
       ).withConverter<ReviewStatus>(
         $DocumentExtractionsTable.$converterreviewStatus,
       );
+  static const VerificationMeta _quoteMeta = const VerificationMeta('quote');
+  @override
+  late final GeneratedColumn<String> quote = GeneratedColumn<String>(
+    'quote',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _originMeta = const VerificationMeta('origin');
+  @override
+  late final GeneratedColumn<String> origin = GeneratedColumn<String>(
+    'origin',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('local'),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -4921,6 +4989,8 @@ class $DocumentExtractionsTable extends DocumentExtractions
     confidence,
     page,
     reviewStatus,
+    quote,
+    origin,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4977,6 +5047,18 @@ class $DocumentExtractionsTable extends DocumentExtractions
         page.isAcceptableOrUnknown(data['page']!, _pageMeta),
       );
     }
+    if (data.containsKey('quote')) {
+      context.handle(
+        _quoteMeta,
+        quote.isAcceptableOrUnknown(data['quote']!, _quoteMeta),
+      );
+    }
+    if (data.containsKey('origin')) {
+      context.handle(
+        _originMeta,
+        origin.isAcceptableOrUnknown(data['origin']!, _originMeta),
+      );
+    }
     return context;
   }
 
@@ -5016,6 +5098,14 @@ class $DocumentExtractionsTable extends DocumentExtractions
           data['${effectivePrefix}review_status'],
         )!,
       ),
+      quote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}quote'],
+      ),
+      origin: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}origin'],
+      )!,
     );
   }
 
@@ -5037,6 +5127,10 @@ class DocumentExtraction extends DataClass
   final double confidence;
   final int? page;
   final ReviewStatus reviewStatus;
+
+  /// Schema v3: the passage the value was read from, and who read it (local | ai).
+  final String? quote;
+  final String origin;
   const DocumentExtraction({
     required this.id,
     required this.documentId,
@@ -5045,6 +5139,8 @@ class DocumentExtraction extends DataClass
     required this.confidence,
     this.page,
     required this.reviewStatus,
+    this.quote,
+    required this.origin,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5062,6 +5158,10 @@ class DocumentExtraction extends DataClass
         $DocumentExtractionsTable.$converterreviewStatus.toSql(reviewStatus),
       );
     }
+    if (!nullToAbsent || quote != null) {
+      map['quote'] = Variable<String>(quote);
+    }
+    map['origin'] = Variable<String>(origin);
     return map;
   }
 
@@ -5074,6 +5174,10 @@ class DocumentExtraction extends DataClass
       confidence: Value(confidence),
       page: page == null && nullToAbsent ? const Value.absent() : Value(page),
       reviewStatus: Value(reviewStatus),
+      quote: quote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(quote),
+      origin: Value(origin),
     );
   }
 
@@ -5092,6 +5196,8 @@ class DocumentExtraction extends DataClass
       reviewStatus: $DocumentExtractionsTable.$converterreviewStatus.fromJson(
         serializer.fromJson<int>(json['reviewStatus']),
       ),
+      quote: serializer.fromJson<String?>(json['quote']),
+      origin: serializer.fromJson<String>(json['origin']),
     );
   }
   @override
@@ -5107,6 +5213,8 @@ class DocumentExtraction extends DataClass
       'reviewStatus': serializer.toJson<int>(
         $DocumentExtractionsTable.$converterreviewStatus.toJson(reviewStatus),
       ),
+      'quote': serializer.toJson<String?>(quote),
+      'origin': serializer.toJson<String>(origin),
     };
   }
 
@@ -5118,6 +5226,8 @@ class DocumentExtraction extends DataClass
     double? confidence,
     Value<int?> page = const Value.absent(),
     ReviewStatus? reviewStatus,
+    Value<String?> quote = const Value.absent(),
+    String? origin,
   }) => DocumentExtraction(
     id: id ?? this.id,
     documentId: documentId ?? this.documentId,
@@ -5126,6 +5236,8 @@ class DocumentExtraction extends DataClass
     confidence: confidence ?? this.confidence,
     page: page.present ? page.value : this.page,
     reviewStatus: reviewStatus ?? this.reviewStatus,
+    quote: quote.present ? quote.value : this.quote,
+    origin: origin ?? this.origin,
   );
   DocumentExtraction copyWithCompanion(DocumentExtractionsCompanion data) {
     return DocumentExtraction(
@@ -5142,6 +5254,8 @@ class DocumentExtraction extends DataClass
       reviewStatus: data.reviewStatus.present
           ? data.reviewStatus.value
           : this.reviewStatus,
+      quote: data.quote.present ? data.quote.value : this.quote,
+      origin: data.origin.present ? data.origin.value : this.origin,
     );
   }
 
@@ -5154,14 +5268,25 @@ class DocumentExtraction extends DataClass
           ..write('value: $value, ')
           ..write('confidence: $confidence, ')
           ..write('page: $page, ')
-          ..write('reviewStatus: $reviewStatus')
+          ..write('reviewStatus: $reviewStatus, ')
+          ..write('quote: $quote, ')
+          ..write('origin: $origin')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, documentId, field, value, confidence, page, reviewStatus);
+  int get hashCode => Object.hash(
+    id,
+    documentId,
+    field,
+    value,
+    confidence,
+    page,
+    reviewStatus,
+    quote,
+    origin,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -5172,7 +5297,9 @@ class DocumentExtraction extends DataClass
           other.value == this.value &&
           other.confidence == this.confidence &&
           other.page == this.page &&
-          other.reviewStatus == this.reviewStatus);
+          other.reviewStatus == this.reviewStatus &&
+          other.quote == this.quote &&
+          other.origin == this.origin);
 }
 
 class DocumentExtractionsCompanion extends UpdateCompanion<DocumentExtraction> {
@@ -5183,6 +5310,8 @@ class DocumentExtractionsCompanion extends UpdateCompanion<DocumentExtraction> {
   final Value<double> confidence;
   final Value<int?> page;
   final Value<ReviewStatus> reviewStatus;
+  final Value<String?> quote;
+  final Value<String> origin;
   final Value<int> rowid;
   const DocumentExtractionsCompanion({
     this.id = const Value.absent(),
@@ -5192,6 +5321,8 @@ class DocumentExtractionsCompanion extends UpdateCompanion<DocumentExtraction> {
     this.confidence = const Value.absent(),
     this.page = const Value.absent(),
     this.reviewStatus = const Value.absent(),
+    this.quote = const Value.absent(),
+    this.origin = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   DocumentExtractionsCompanion.insert({
@@ -5202,6 +5333,8 @@ class DocumentExtractionsCompanion extends UpdateCompanion<DocumentExtraction> {
     required double confidence,
     this.page = const Value.absent(),
     this.reviewStatus = const Value.absent(),
+    this.quote = const Value.absent(),
+    this.origin = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        documentId = Value(documentId),
@@ -5216,6 +5349,8 @@ class DocumentExtractionsCompanion extends UpdateCompanion<DocumentExtraction> {
     Expression<double>? confidence,
     Expression<int>? page,
     Expression<int>? reviewStatus,
+    Expression<String>? quote,
+    Expression<String>? origin,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -5226,6 +5361,8 @@ class DocumentExtractionsCompanion extends UpdateCompanion<DocumentExtraction> {
       if (confidence != null) 'confidence': confidence,
       if (page != null) 'page': page,
       if (reviewStatus != null) 'review_status': reviewStatus,
+      if (quote != null) 'quote': quote,
+      if (origin != null) 'origin': origin,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -5238,6 +5375,8 @@ class DocumentExtractionsCompanion extends UpdateCompanion<DocumentExtraction> {
     Value<double>? confidence,
     Value<int?>? page,
     Value<ReviewStatus>? reviewStatus,
+    Value<String?>? quote,
+    Value<String>? origin,
     Value<int>? rowid,
   }) {
     return DocumentExtractionsCompanion(
@@ -5248,6 +5387,8 @@ class DocumentExtractionsCompanion extends UpdateCompanion<DocumentExtraction> {
       confidence: confidence ?? this.confidence,
       page: page ?? this.page,
       reviewStatus: reviewStatus ?? this.reviewStatus,
+      quote: quote ?? this.quote,
+      origin: origin ?? this.origin,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -5280,6 +5421,12 @@ class DocumentExtractionsCompanion extends UpdateCompanion<DocumentExtraction> {
         ),
       );
     }
+    if (quote.present) {
+      map['quote'] = Variable<String>(quote.value);
+    }
+    if (origin.present) {
+      map['origin'] = Variable<String>(origin.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -5296,6 +5443,8 @@ class DocumentExtractionsCompanion extends UpdateCompanion<DocumentExtraction> {
           ..write('confidence: $confidence, ')
           ..write('page: $page, ')
           ..write('reviewStatus: $reviewStatus, ')
+          ..write('quote: $quote, ')
+          ..write('origin: $origin, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -15263,6 +15412,7 @@ typedef $$DocumentsTableCreateCompanionBuilder = DocumentsCompanion Function({
   required DateTime updatedAt,
   Value<DateTime?> deletedAt,
   required String fileName,
+  Value<String?> title,
   required String mimeType,
   required String sha256,
   required int sizeBytes,
@@ -15284,6 +15434,7 @@ typedef $$DocumentsTableUpdateCompanionBuilder = DocumentsCompanion Function({
   Value<DateTime> updatedAt,
   Value<DateTime?> deletedAt,
   Value<String> fileName,
+  Value<String?> title,
   Value<String> mimeType,
   Value<String> sha256,
   Value<int> sizeBytes,
@@ -15413,6 +15564,11 @@ class $$DocumentsTableFilterComposer
 
   ColumnFilters<String> get fileName => $composableBuilder(
     column: $table.fileName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -15584,6 +15740,11 @@ class $$DocumentsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get mimeType => $composableBuilder(
     column: $table.mimeType,
     builder: (column) => ColumnOrderings(column),
@@ -15688,6 +15849,9 @@ class $$DocumentsTableAnnotationComposer
 
   GeneratedColumn<String> get fileName =>
       $composableBuilder(column: $table.fileName, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
 
   GeneratedColumn<String> get mimeType =>
       $composableBuilder(column: $table.mimeType, builder: (column) => column);
@@ -15833,6 +15997,7 @@ class $$DocumentsTableTableManager
                 Value<DateTime> updatedAt = const Value.absent(),
                 Value<DateTime?> deletedAt = const Value.absent(),
                 Value<String> fileName = const Value.absent(),
+                Value<String?> title = const Value.absent(),
                 Value<String> mimeType = const Value.absent(),
                 Value<String> sha256 = const Value.absent(),
                 Value<int> sizeBytes = const Value.absent(),
@@ -15853,6 +16018,7 @@ class $$DocumentsTableTableManager
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
                 fileName: fileName,
+                title: title,
                 mimeType: mimeType,
                 sha256: sha256,
                 sizeBytes: sizeBytes,
@@ -15875,6 +16041,7 @@ class $$DocumentsTableTableManager
                 required DateTime updatedAt,
                 Value<DateTime?> deletedAt = const Value.absent(),
                 required String fileName,
+                Value<String?> title = const Value.absent(),
                 required String mimeType,
                 required String sha256,
                 required int sizeBytes,
@@ -15895,6 +16062,7 @@ class $$DocumentsTableTableManager
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
                 fileName: fileName,
+                title: title,
                 mimeType: mimeType,
                 sha256: sha256,
                 sizeBytes: sizeBytes,
@@ -16035,6 +16203,8 @@ typedef $$DocumentExtractionsTableCreateCompanionBuilder =
       required double confidence,
       Value<int?> page,
       Value<ReviewStatus> reviewStatus,
+      Value<String?> quote,
+      Value<String> origin,
       Value<int> rowid,
     });
 typedef $$DocumentExtractionsTableUpdateCompanionBuilder =
@@ -16046,6 +16216,8 @@ typedef $$DocumentExtractionsTableUpdateCompanionBuilder =
       Value<double> confidence,
       Value<int?> page,
       Value<ReviewStatus> reviewStatus,
+      Value<String?> quote,
+      Value<String> origin,
       Value<int> rowid,
     });
 
@@ -16120,6 +16292,16 @@ class $$DocumentExtractionsTableFilterComposer
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
+  ColumnFilters<String> get quote => $composableBuilder(
+    column: $table.quote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get origin => $composableBuilder(
+    column: $table.origin,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$DocumentsTableFilterComposer get documentId {
     final $$DocumentsTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -16183,6 +16365,16 @@ class $$DocumentExtractionsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get quote => $composableBuilder(
+    column: $table.quote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get origin => $composableBuilder(
+    column: $table.origin,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$DocumentsTableOrderingComposer get documentId {
     final $$DocumentsTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -16238,6 +16430,12 @@ class $$DocumentExtractionsTableAnnotationComposer
         column: $table.reviewStatus,
         builder: (column) => column,
       );
+
+  GeneratedColumn<String> get quote =>
+      $composableBuilder(column: $table.quote, builder: (column) => column);
+
+  GeneratedColumn<String> get origin =>
+      $composableBuilder(column: $table.origin, builder: (column) => column);
 
   $$DocumentsTableAnnotationComposer get documentId {
     final $$DocumentsTableAnnotationComposer composer = $composerBuilder(
@@ -16306,6 +16504,8 @@ class $$DocumentExtractionsTableTableManager
                 Value<double> confidence = const Value.absent(),
                 Value<int?> page = const Value.absent(),
                 Value<ReviewStatus> reviewStatus = const Value.absent(),
+                Value<String?> quote = const Value.absent(),
+                Value<String> origin = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => DocumentExtractionsCompanion(
                 id: id,
@@ -16315,6 +16515,8 @@ class $$DocumentExtractionsTableTableManager
                 confidence: confidence,
                 page: page,
                 reviewStatus: reviewStatus,
+                quote: quote,
+                origin: origin,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -16326,6 +16528,8 @@ class $$DocumentExtractionsTableTableManager
                 required double confidence,
                 Value<int?> page = const Value.absent(),
                 Value<ReviewStatus> reviewStatus = const Value.absent(),
+                Value<String?> quote = const Value.absent(),
+                Value<String> origin = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => DocumentExtractionsCompanion.insert(
                 id: id,
@@ -16335,6 +16539,8 @@ class $$DocumentExtractionsTableTableManager
                 confidence: confidence,
                 page: page,
                 reviewStatus: reviewStatus,
+                quote: quote,
+                origin: origin,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

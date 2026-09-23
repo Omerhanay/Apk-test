@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:life_os/core/agent/tool_contract.dart';
 import 'package:life_os/core/ai/relay_client.dart';
 import 'package:life_os/core/db/database.dart';
+import 'package:life_os/core/documents/blob_store.dart';
+import 'package:life_os/core/documents/text_extractor.dart';
+import 'package:life_os/features/documents/add_document.dart';
+import 'package:life_os/features/documents/document_picker.dart';
 import 'package:life_os/core/planner/notification_scheduler.dart';
 import 'package:life_os/core/providers.dart';
 import 'package:life_os/core/security/authenticator.dart';
@@ -41,6 +46,39 @@ class FakeNotifications implements NotificationScheduler {
   }
 }
 
+/// In-memory files: widget tests can't do real file I/O. Encryption itself is
+/// covered by test/documents/document_core_test.dart.
+class MemoryBlobStore implements BlobStore {
+  final files = <String, Uint8List>{};
+  var _n = 0;
+  @override
+  Future<String> write(Uint8List plain) async {
+    final name = 'blob${_n++}';
+    files[name] = plain;
+    return name;
+  }
+
+  @override
+  Future<Uint8List> read(String name) async => files[name]!;
+  @override
+  Future<void> delete(String name) async => files.remove(name);
+}
+
+class FakeTextExtractor implements TextExtractor {
+  final pagesByContent = <String, List<String>>{};
+  @override
+  Future<List<String>> extract(Uint8List bytes, String mimeType) async =>
+      pagesByContent[String.fromCharCodes(bytes)] ?? const [];
+}
+
+class FakePicker implements DocumentPicker {
+  PickedDocument? next;
+  @override
+  Future<PickedDocument?> pickFile() async => next;
+  @override
+  Future<PickedDocument?> takePhoto() async => next;
+}
+
 class MemorySecretStore implements SecretStore {
   final values = <String, String>{};
   @override
@@ -65,6 +103,9 @@ class TestHarness {
   final RelayClient Function(RelayCredentials)? relayClient;
   final secrets = MemorySecretStore();
   final notifications = FakeNotifications();
+  final blobs = MemoryBlobStore();
+  final ocr = FakeTextExtractor();
+  final picker = FakePicker();
   final db = LifeDatabase(NativeDatabase.memory());
   DateTime now = DateTime(2026, 9, 22, 9);
 
@@ -82,6 +123,9 @@ class TestHarness {
         toolRegistryProvider.overrideWith(
             (ref) async => ToolRegistry.fromContractJson(File('assets/contracts/agent-tools.json').readAsStringSync())),
         notificationSchedulerProvider.overrideWith((ref) async => notifications),
+        blobStoreProvider.overrideWith((ref) async => blobs),
+        textExtractorProvider.overrideWithValue(ocr),
+        documentPickerProvider.overrideWithValue(picker),
         if (relayClient != null) relayClientFactoryProvider.overrideWithValue(relayClient!),
       ],
       child: const LifeOsApp(),

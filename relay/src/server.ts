@@ -2,7 +2,15 @@ import rateLimit from "@fastify/rate-limit";
 import Fastify, { type FastifyInstance } from "fastify";
 import { randomUUID } from "node:crypto";
 import { verifyBearer } from "./auth.js";
-import { AgentTurnRequest, type LlmProvider, MemoryParseRequest, ProviderError, type ToolSpec } from "./llm/types.js";
+import {
+  AgentTurnRequest,
+  DocumentExtractRequest,
+  LOCAL_ONLY_DOCUMENT_TYPES,
+  type LlmProvider,
+  MemoryParseRequest,
+  ProviderError,
+  type ToolSpec,
+} from "./llm/types.js";
 
 export interface ServerDeps {
   tokenSha256: string;
@@ -11,6 +19,8 @@ export interface ServerDeps {
   promptVersion: string;
   memoryParsePrompt: string;
   memoryParsePromptVersion: string;
+  documentExtractPrompt: string;
+  documentExtractPromptVersion: string;
   tools: ToolSpec[];
   rateLimitPerMinute: number;
   logLevel?: string;
@@ -100,6 +110,36 @@ export async function buildServer(deps: ServerDeps): Promise<FastifyInstance> {
       const code = err instanceof ProviderError ? err.code : "unknown";
       const retryable = err instanceof ProviderError && err.retryable;
       req.log.error({ event: "memory_parse_failed", code, latency_ms: Math.round(performance.now() - started) });
+      return reply.code(code === "rate_limited" ? 429 : code === "refused" ? 422 : 502).send({ error: code, retryable });
+    }
+  });
+
+  app.post("/v1/document/extract", async (req, reply) => {
+    const parsed = DocumentExtractRequest.safeParse(req.body);
+    if (!parsed.success) {
+      return reply.code(400).send({ error: "invalid_request", issues: parsed.error.issues.map((i) => i.path.join(".")) });
+    }
+    // Defense in depth: the app never sends these, and the relay refuses them if it does.
+    if (LOCAL_ONLY_DOCUMENT_TYPES.has(parsed.data.doc_type)) {
+      req.log.warn({ event: "document_extract_refused_local_only", doc_type: parsed.data.doc_type });
+      return reply.code(422).send({ error: "local_only_document", retryable: false });
+    }
+    const started = performance.now();
+    try {
+      const result = await deps.provider.extractDocument({ system: deps.documentExtractPrompt, request: parsed.data });
+      req.log.info({
+        event: "document_extract",
+        provider: deps.provider.name,
+        prompt_version: deps.documentExtractPromptVersion,
+        doc_type: result.doc_type,
+        field_count: result.fields.length,
+        latency_ms: Math.round(performance.now() - started),
+      });
+      return { ...result, prompt_version: deps.documentExtractPromptVersion };
+    } catch (err) {
+      const code = err instanceof ProviderError ? err.code : "unknown";
+      const retryable = err instanceof ProviderError && err.retryable;
+      req.log.error({ event: "document_extract_failed", code, latency_ms: Math.round(performance.now() - started) });
       return reply.code(code === "rate_limited" ? 429 : code === "refused" ? 422 : 502).send({ error: code, retryable });
     }
   });

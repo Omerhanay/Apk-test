@@ -30,7 +30,7 @@ class LifeDatabase extends _$LifeDatabase {
   LifeDatabase(super.executor);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -42,6 +42,12 @@ class LifeDatabase extends _$LifeDatabase {
         },
         onUpgrade: (m, from, to) async {
           if (from < 2) await m.addColumn(tasks, tasks.allDay);
+          if (from < 3) {
+            await m.addColumn(documents, documents.title);
+            await m.addColumn(documentExtractions, documentExtractions.quote);
+            await m.addColumn(documentExtractions, documentExtractions.origin);
+            await customStatement('CREATE INDEX IF NOT EXISTS idx_chunks_document ON document_chunks (document_id)');
+          }
         },
         beforeOpen: (details) async {
           await customStatement('PRAGMA foreign_keys = ON');
@@ -56,6 +62,7 @@ class LifeDatabase extends _$LifeDatabase {
     'CREATE INDEX idx_reminders_fire ON reminders (status, fire_at) WHERE deleted_at IS NULL',
     'CREATE INDEX idx_actions_state ON agent_actions (state)',
     'CREATE INDEX idx_audit_at ON audit_logs (at)',
+    'CREATE INDEX idx_chunks_document ON document_chunks (document_id)',
   ];
 
   /// Appends an audit entry. Callers pass ids and outcome codes only.

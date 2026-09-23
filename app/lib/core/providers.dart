@@ -1,12 +1,18 @@
+import 'dart:io' show Directory;
 import 'dart:ui' show Locale, PlatformDispatcher;
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 import 'agent/tool_contract.dart';
 import 'ai/relay_client.dart';
 import 'db/connection.dart';
 import 'db/database.dart';
+import 'documents/blob_store.dart';
+import 'documents/document_repository.dart';
+import 'documents/text_extractor.dart';
 import 'locale.dart';
 import 'memory/memory_repository.dart';
 import 'permissions/permission_repository.dart';
@@ -66,6 +72,25 @@ final plannerRepositoryProvider = FutureProvider<PlannerRepository>((ref) async 
   return PlannerRepository(
     await ref.watch(databaseProvider.future),
     await ref.watch(notificationSchedulerProvider.future),
+    clock: ref.watch(clockProvider),
+  );
+});
+
+/// Encrypted document files live in the app's private support directory.
+final blobStoreProvider = FutureProvider<BlobStore>((ref) async {
+  final dir = await getApplicationSupportDirectory();
+  final keys = ref.watch(keyStoreProvider);
+  return EncryptedBlobStore(Directory(p.join(dir.path, 'documents')), keys.fileKey);
+});
+
+final textExtractorProvider = Provider<TextExtractor>((ref) => DeviceTextExtractor());
+
+final documentRepositoryProvider = FutureProvider<DocumentRepository>((ref) async {
+  return DocumentRepository(
+    await ref.watch(databaseProvider.future),
+    await ref.watch(blobStoreProvider.future),
+    ref.watch(textExtractorProvider),
+    await ref.watch(plannerRepositoryProvider.future),
     clock: ref.watch(clockProvider),
   );
 });

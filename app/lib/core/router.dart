@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/ask/ask_sheet.dart';
+import '../features/documents/add_document.dart';
+import '../features/documents/document_review_screen.dart';
 import '../features/documents/documents_screen.dart';
 import '../features/life/life_screen.dart';
 import '../features/memory/capture_sheet.dart';
@@ -28,7 +31,26 @@ GoRouter buildRouter() => GoRouter(
           branches: [
             _branch('/today', const TodayScreen()),
             _branch('/tasks', const TasksScreen()),
-            _branch('/documents', const DocumentsScreen()),
+            StatefulShellBranch(routes: [
+              GoRoute(
+                path: '/documents',
+                builder: (context, state) => const DocumentsScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    parentNavigatorKey: _rootKey,
+                    builder: (context, state) => DocumentDetailScreen(id: state.pathParameters['id']!),
+                    routes: [
+                      GoRoute(
+                        path: 'review',
+                        parentNavigatorKey: _rootKey,
+                        builder: (context, state) => DocumentReviewScreen(id: state.pathParameters['id']!),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ]),
             _branch('/life', const LifeScreen()),
             StatefulShellBranch(routes: [
               GoRoute(
@@ -67,6 +89,7 @@ class _HomeShell extends StatelessWidget {
 
   static const _todayTab = 0;
   static const _tasksTab = 1;
+  static const _documentsTab = 2;
   static const _memoryTab = 4;
 
   @override
@@ -109,6 +132,13 @@ class _HomeShell extends StatelessWidget {
             tooltip: l.tasksAdd,
             onPressed: () => showQuickAddSheet(context),
             child: const Icon(Icons.add),
+          ),
+        _documentsTab => Consumer(
+            builder: (context, ref, _) => FloatingActionButton(
+              tooltip: l.docAdd,
+              onPressed: () => showAddDocumentSheet(context, ref),
+              child: const Icon(Icons.add),
+            ),
           ),
         _memoryTab => FloatingActionButton(
             tooltip: l.memoryAdd,

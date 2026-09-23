@@ -254,5 +254,100 @@
   "auditEventCreated": "Event added",
   "auditEventDeleted": "Event deleted",
   "auditReminderCreated": "Reminder added",
-  "quickAddRepeatTooltip": "Repeat"
+  "quickAddRepeatTooltip": "Repeat",
+  "docAdd": "Add document",
+  "docChooseFile": "Choose a file",
+  "docTakePhoto": "Take a photo",
+  "docReading": "Reading the document on this phone…",
+  "docAlreadyAdded": "This document was already added.",
+  "docUnsupported": "Only PDF, JPG and PNG files up to 25 MB.",
+  "docReviewTitle": "Review",
+  "docReviewIntro": "Check what LIFE OS read. Only the items you keep are saved.",
+  "docType": "Type",
+  "docFindWithAi": "Find more with AI",
+  "docAiNote": "Sends the document's text (not the file) to your AI relay. Every suggestion must quote the document.",
+  "docLocalOnlyNote": "ID and health documents are read on this phone only.",
+  "docAiFound": "{count, plural, =0{The AI found nothing new.} =1{1 more item found} other{{count} more items found}}",
+  "@docAiFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "docAiFailed": "Couldn't reach the AI.",
+  "docSourceLocal": "Read on this phone",
+  "docNoFields": "No dates or numbers were found. You can still keep the document.",
+  "docOcrFailed": "The text couldn't be read. You can still keep the file.",
+  "docRemindBefore": "Remind me {days} days before",
+  "@docRemindBefore": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "docSaved": "Saved",
+  "docSavedWithReminder": "Saved. Reminder on {date}.",
+  "@docSavedWithReminder": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "docReminderTitle": "{title} — expires {date}",
+  "@docReminderTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "docNeedsReview": "Needs review",
+  "docExpires": "Expires {date}",
+  "@docExpires": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "docFields": "DETAILS",
+  "docText": "TEXT",
+  "docDelete": "Delete document",
+  "docDeleteConfirmTitle": "Delete this document?",
+  "docDeleteConfirmBody": "The file, its details and its reminders will be removed from this phone.",
+  "docDeleted": "Document deleted",
+  "docEditValue": "Edit",
+  "fieldExpiresOn": "Expires",
+  "fieldStartsOn": "Starts",
+  "fieldDueOn": "Payment due",
+  "fieldIssuedOn": "Issued",
+  "fieldRenewsOn": "Renewal",
+  "fieldPolicyNumber": "Policy number",
+  "fieldProvider": "Provider",
+  "fieldVehiclePlate": "Plate",
+  "fieldVehicleModel": "Vehicle",
+  "fieldAmount": "Amount",
+  "fieldReference": "Reference",
+  "docTypeInsurance": "Insurance",
+  "docTypeVehicleRegistration": "Vehicle registration",
+  "docTypePassport": "Passport",
+  "docTypeIdCard": "ID card",
+  "docTypeDriverLicense": "Driving licence",
+  "docTypeWarranty": "Warranty",
+  "docTypeInvoice": "Invoice",
+  "docTypeReceipt": "Receipt",
+  "docTypeContract": "Contract",
+  "docTypeTravel": "Travel",
+  "docTypeMedical": "Medical",
+  "docTypeOther": "Other",
+  "auditDocumentAdded": "Document added",
+  "auditDocumentReviewed": "Document reviewed",
+  "auditDocumentDeleted": "Document deleted",
+  "auditDocumentAiFields": "AI suggestions checked"
 }

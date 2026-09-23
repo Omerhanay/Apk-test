@@ -287,6 +287,12 @@ class PlannerRepository {
         return id;
       });
 
+  /// Cancels and removes every reminder linked to [targetId].
+  Future<void> deleteRemindersFor(String targetId) => _db.transaction(() async {
+        await _cancelRemindersFor(targetId);
+        await (_db.delete(_db.reminders)..where((r) => r.targetId.equals(targetId))).go();
+      });
+
   Future<List<Reminder>> _remindersFor(String targetId) => (_db.select(_db.reminders)
         ..where((r) => r.targetId.equals(targetId) & r.status.equals('scheduled')))
       .get();

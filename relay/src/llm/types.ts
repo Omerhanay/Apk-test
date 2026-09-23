@@ -72,6 +72,39 @@ export const MemoryParse = z.object({
 });
 export type MemoryParse = z.infer<typeof MemoryParse>;
 
+export const DocumentType = z.enum([
+  "insurance", "vehicle_registration", "passport", "id_card", "driver_license", "warranty",
+  "invoice", "receipt", "contract", "travel", "medical", "other",
+]);
+
+/** Identity and health documents are read on the device only. */
+export const LOCAL_ONLY_DOCUMENT_TYPES = new Set(["passport", "id_card", "driver_license", "medical"]);
+
+export const DocumentExtractRequest = z.object({
+  text: z.string().trim().min(1).max(60_000),
+  doc_type: DocumentType,
+  locale: z.enum(["en", "tr"]),
+  today: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+});
+export type DocumentExtractRequest = z.infer<typeof DocumentExtractRequest>;
+
+export const DocumentExtraction = z.object({
+  doc_type: DocumentType,
+  title: z.string(),
+  fields: z.array(
+    z.object({
+      key: z.enum([
+        "expires_on", "starts_on", "due_on", "issued_on", "renews_on",
+        "policy_number", "provider", "vehicle_plate", "vehicle_model", "amount", "reference",
+      ]),
+      value: z.string(),
+      quote: z.string(),
+      confidence: z.number(),
+    }),
+  ),
+});
+export type DocumentExtraction = z.infer<typeof DocumentExtraction>;
+
 export type StopReason = "end_turn" | "tool_calls" | "max_tokens" | "refusal" | "incomplete";
 
 export interface AgentTurnResult {
@@ -91,6 +124,7 @@ export interface LlmProvider {
   readonly name: string;
   agentTurn(input: { system: string; tools: ToolSpec[]; messages: Message[] }): Promise<AgentTurnResult>;
   parseMemory(input: { system: string; request: MemoryParseRequest }): Promise<MemoryParse>;
+  extractDocument(input: { system: string; request: DocumentExtractRequest }): Promise<DocumentExtraction>;
 }
 
 /** Thrown by providers for upstream failures; carries a safe, content-free code. */

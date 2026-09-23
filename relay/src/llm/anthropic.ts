@@ -6,6 +6,8 @@ import {
   type Block,
   type LlmProvider,
   type Message,
+  DocumentExtraction,
+  type DocumentExtractRequest,
   MemoryParse,
   type MemoryParseRequest,
   ProviderError,
@@ -85,6 +87,38 @@ export class AnthropicProvider implements LlmProvider {
               `language: ${locale}`,
               `known_subjects: ${JSON.stringify(known_subjects)}`,
               `<user_text>\n${text}\n</user_text>`,
+            ].join("\n"),
+          },
+        ],
+      });
+      if (response.stop_reason === "refusal") throw new ProviderError("refused", false);
+      if (!response.parsed_output) throw new ProviderError("unparseable", true);
+      return response.parsed_output;
+    } catch (err) {
+      if (err instanceof ProviderError) throw err;
+      throw mapError(err);
+    }
+  }
+
+  async extractDocument(input: { system: string; request: DocumentExtractRequest }): Promise<DocumentExtraction> {
+    const { text, doc_type, locale, today } = input.request;
+    try {
+      const response = await this.client.beta.messages.parse({
+        model: this.opts.model,
+        max_tokens: 8000,
+        thinking: { type: "adaptive" },
+        output_config: { effort: this.opts.parseEffort ?? "low", format: betaZodOutputFormat(DocumentExtraction) },
+        betas: ["server-side-fallback-2026-07-01"],
+        fallbacks: "default",
+        system: [{ type: "text", text: input.system, cache_control: { type: "ephemeral" } }],
+        messages: [
+          {
+            role: "user",
+            content: [
+              `today: ${today}`,
+              `language: ${locale}`,
+              `classified_as: ${doc_type}`,
+              `<document_text>\n${text}\n</document_text>`,
             ].join("\n"),
           },
         ],

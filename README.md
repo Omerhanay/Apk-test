@@ -54,5 +54,6 @@ After editing `contracts/agent-tools.json`, copy it to `app/assets/contracts/`
 | 4 Onboarding, app lock, relay pairing, permissions + activity screens | done |
 | 5 Memory: capture (AI-assisted or offline), corrections with history, Turkish-aware search | done |
 | 6 Tasks, events, reminders: EN/TR quick add, repeats, notifications, schema v2 migration | done |
-| 7 Documents | next |
-| 8-12 Retrieval, agent loop, proactive, hardening | planned |
+| 7 Documents: encrypted files, on-device OCR, EN/TR classification and field extraction, verified AI suggestions, review → reminders, schema v3 | done |
+| 8 AI retrieval: Ask My Life | next |
+| 9-12 Agent loop, firewall UI, proactive, hardening | planned |

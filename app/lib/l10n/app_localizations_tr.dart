@@ -656,4 +656,199 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get quickAddRepeatTooltip => 'Tekrar';
+
+  @override
+  String get docAdd => 'Belge ekle';
+
+  @override
+  String get docChooseFile => 'Dosya seç';
+
+  @override
+  String get docTakePhoto => 'Fotoğraf çek';
+
+  @override
+  String get docReading => 'Belge bu telefonda okunuyor…';
+
+  @override
+  String get docAlreadyAdded => 'Bu belge zaten eklenmiş.';
+
+  @override
+  String get docUnsupported =>
+      'Yalnızca 25 MB\'a kadar PDF, JPG ve PNG dosyaları.';
+
+  @override
+  String get docReviewTitle => 'Gözden geçir';
+
+  @override
+  String get docReviewIntro =>
+      'LIFE OS\'un okuduklarını kontrol edin. Yalnızca tuttuklarınız kaydedilir.';
+
+  @override
+  String get docType => 'Tür';
+
+  @override
+  String get docFindWithAi => 'Yapay zekâ ile daha fazlasını bul';
+
+  @override
+  String get docAiNote =>
+      'Belgenin metnini (dosyayı değil) yapay zekâ sunucunuza gönderir. Her öneri belgeden alıntı yapmak zorundadır.';
+
+  @override
+  String get docLocalOnlyNote =>
+      'Kimlik ve sağlık belgeleri yalnızca bu telefonda okunur.';
+
+  @override
+  String docAiFound(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count öğe daha bulundu',
+      one: '1 öğe daha bulundu',
+      zero: 'Yapay zekâ yeni bir şey bulmadı.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get docAiFailed => 'Yapay zekâya ulaşılamadı.';
+
+  @override
+  String get docSourceLocal => 'Bu telefonda okundu';
+
+  @override
+  String get docNoFields =>
+      'Tarih veya numara bulunamadı. Belgeyi yine de saklayabilirsiniz.';
+
+  @override
+  String get docOcrFailed =>
+      'Metin okunamadı. Dosyayı yine de saklayabilirsiniz.';
+
+  @override
+  String docRemindBefore(int days) {
+    return '$days gün önce hatırlat';
+  }
+
+  @override
+  String get docSaved => 'Kaydedildi';
+
+  @override
+  String docSavedWithReminder(String date) {
+    return 'Kaydedildi. Hatırlatma: $date.';
+  }
+
+  @override
+  String docReminderTitle(String title, String date) {
+    return '$title — bitiş $date';
+  }
+
+  @override
+  String get docNeedsReview => 'Gözden geçirilmeli';
+
+  @override
+  String docExpires(String date) {
+    return 'Bitiş: $date';
+  }
+
+  @override
+  String get docFields => 'BİLGİLER';
+
+  @override
+  String get docText => 'METİN';
+
+  @override
+  String get docDelete => 'Belgeyi sil';
+
+  @override
+  String get docDeleteConfirmTitle => 'Bu belge silinsin mi?';
+
+  @override
+  String get docDeleteConfirmBody =>
+      'Dosya, bilgileri ve hatırlatıcıları bu telefondan kaldırılacak.';
+
+  @override
+  String get docDeleted => 'Belge silindi';
+
+  @override
+  String get docEditValue => 'Düzenle';
+
+  @override
+  String get fieldExpiresOn => 'Bitiş';
+
+  @override
+  String get fieldStartsOn => 'Başlangıç';
+
+  @override
+  String get fieldDueOn => 'Son ödeme';
+
+  @override
+  String get fieldIssuedOn => 'Düzenlenme';
+
+  @override
+  String get fieldRenewsOn => 'Yenileme';
+
+  @override
+  String get fieldPolicyNumber => 'Poliçe no';
+
+  @override
+  String get fieldProvider => 'Şirket';
+
+  @override
+  String get fieldVehiclePlate => 'Plaka';
+
+  @override
+  String get fieldVehicleModel => 'Araç';
+
+  @override
+  String get fieldAmount => 'Tutar';
+
+  @override
+  String get fieldReference => 'Referans';
+
+  @override
+  String get docTypeInsurance => 'Sigorta';
+
+  @override
+  String get docTypeVehicleRegistration => 'Araç ruhsatı';
+
+  @override
+  String get docTypePassport => 'Pasaport';
+
+  @override
+  String get docTypeIdCard => 'Kimlik kartı';
+
+  @override
+  String get docTypeDriverLicense => 'Ehliyet';
+
+  @override
+  String get docTypeWarranty => 'Garanti belgesi';
+
+  @override
+  String get docTypeInvoice => 'Fatura';
+
+  @override
+  String get docTypeReceipt => 'Fiş';
+
+  @override
+  String get docTypeContract => 'Sözleşme';
+
+  @override
+  String get docTypeTravel => 'Seyahat';
+
+  @override
+  String get docTypeMedical => 'Sağlık';
+
+  @override
+  String get docTypeOther => 'Diğer';
+
+  @override
+  String get auditDocumentAdded => 'Belge eklendi';
+
+  @override
+  String get auditDocumentReviewed => 'Belge gözden geçirildi';
+
+  @override
+  String get auditDocumentDeleted => 'Belge silindi';
+
+  @override
+  String get auditDocumentAiFields => 'Yapay zekâ önerileri kontrol edildi';
 }

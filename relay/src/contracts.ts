@@ -9,6 +9,7 @@ const repoRoot = resolve(here, "../..");
 export const PROMPT_VERSION = "agent.v2";
 
 export const MEMORY_PARSE_PROMPT_VERSION = "memory-parse.v1";
+export const DOCUMENT_EXTRACT_PROMPT_VERSION = "document-extract.v1";
 
 function loadPrompt(version: string): string {
   return readFileSync(resolve(repoRoot, "relay/prompts", `${version}.md`), "utf8");
@@ -32,4 +33,8 @@ interface ContractTool extends ToolSpec {
 export function loadToolSpecs(): ToolSpec[] {
   const raw = JSON.parse(readFileSync(resolve(repoRoot, "contracts/agent-tools.json"), "utf8")) as { tools: ContractTool[] };
   return raw.tools.map(({ name, description, input_schema }) => ({ name, description, input_schema }));
+}
+
+export function loadDocumentExtractPrompt(): string {
+  return loadPrompt(DOCUMENT_EXTRACT_PROMPT_VERSION);
 }

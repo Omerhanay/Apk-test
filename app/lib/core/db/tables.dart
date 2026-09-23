@@ -100,6 +100,9 @@ class EntityDates extends Table with Provenance {
 @DataClassName('Document')
 class Documents extends Table with Provenance {
   TextColumn get fileName => text()();
+
+  /// Schema v3: a readable name, e.g. "Kasko poliçesi – Anadolu Sigorta".
+  TextColumn get title => text().nullable()();
   TextColumn get mimeType => text()();
   TextColumn get sha256 => text()();
   IntColumn get sizeBytes => integer()();
@@ -122,6 +125,10 @@ class DocumentExtractions extends Table {
   RealColumn get confidence => real()();
   IntColumn get page => integer().nullable()();
   IntColumn get reviewStatus => intEnum<ReviewStatus>().withDefault(const Constant(0))();
+
+  /// Schema v3: the passage the value was read from, and who read it (local | ai).
+  TextColumn get quote => text().nullable()();
+  TextColumn get origin => text().withDefault(const Constant('local'))();
 
   @override
   Set<Column> get primaryKey => {id};

@@ -1,4 +1,13 @@
-import type { AgentTurnResult, LlmProvider, MemoryParse, MemoryParseRequest, Message, ToolSpec } from "./types.js";
+import type {
+  AgentTurnResult,
+  DocumentExtractRequest,
+  DocumentExtraction,
+  LlmProvider,
+  MemoryParse,
+  MemoryParseRequest,
+  Message,
+  ToolSpec,
+} from "./types.js";
 
 /**
  * DEVELOPMENT/TEST ONLY. A deterministic stand-in for a real model so the app and
@@ -39,6 +48,11 @@ export class MockProvider implements LlmProvider {
       confidence: 0.3,
       needs_clarification: null,
     };
+  }
+
+  /** Extracts nothing: the app's own rules still run on the device. */
+  async extractDocument(input: { system: string; request: DocumentExtractRequest }): Promise<DocumentExtraction> {
+    return { doc_type: input.request.doc_type, title: "", fields: [] };
   }
 
   private result(stop: AgentTurnResult["stop"], content: AgentTurnResult["content"]): AgentTurnResult {

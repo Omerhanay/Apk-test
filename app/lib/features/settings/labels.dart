@@ -40,6 +40,10 @@ String auditActionLabel(AppLocalizations l, String action) => switch (action) {
       'event_created' => l.auditEventCreated,
       'event_deleted' => l.auditEventDeleted,
       'reminder_created' => l.auditReminderCreated,
+      'document_added' => l.auditDocumentAdded,
+      'document_reviewed' => l.auditDocumentReviewed,
+      'document_deleted' => l.auditDocumentDeleted,
+      'document_ai_fields' => l.auditDocumentAiFields,
       _ => action,
     };
 
@@ -88,3 +92,33 @@ String dueLabel(AppLocalizations l, String locale, DateTime due, {required bool 
   };
   return allDay ? dayPart : '$dayPart ${DateFormat.Hm(locale).format(due)}';
 }
+
+String documentFieldLabel(AppLocalizations l, String key) => switch (key) {
+      'expires_on' => l.fieldExpiresOn,
+      'starts_on' => l.fieldStartsOn,
+      'due_on' => l.fieldDueOn,
+      'issued_on' => l.fieldIssuedOn,
+      'renews_on' => l.fieldRenewsOn,
+      'policy_number' => l.fieldPolicyNumber,
+      'provider' => l.fieldProvider,
+      'vehicle_plate' => l.fieldVehiclePlate,
+      'vehicle_model' => l.fieldVehicleModel,
+      'amount' => l.fieldAmount,
+      'reference' => l.fieldReference,
+      _ => key,
+    };
+
+String documentTypeLabel(AppLocalizations l, String? type) => switch (type) {
+      'insurance' => l.docTypeInsurance,
+      'vehicle_registration' => l.docTypeVehicleRegistration,
+      'passport' => l.docTypePassport,
+      'id_card' => l.docTypeIdCard,
+      'driver_license' => l.docTypeDriverLicense,
+      'warranty' => l.docTypeWarranty,
+      'invoice' => l.docTypeInvoice,
+      'receipt' => l.docTypeReceipt,
+      'contract' => l.docTypeContract,
+      'travel' => l.docTypeTravel,
+      'medical' => l.docTypeMedical,
+      _ => l.docTypeOther,
+    };
