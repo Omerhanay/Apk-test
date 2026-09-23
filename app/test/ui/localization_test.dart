@@ -55,7 +55,7 @@ void main() {
       locale: const Locale('tr'),
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      home: Scaffold(body: TodayScreen(now: DateTime(2026, 9, 22, 9))),
+      home: Scaffold(body: TodayHeader(now: DateTime(2026, 9, 22, 9))),
     ));
     await tester.pumpAndSettle();
     expect(find.text('Günaydın'), findsOneWidget);

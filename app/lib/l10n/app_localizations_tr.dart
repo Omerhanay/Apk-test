@@ -521,4 +521,139 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get auditMemoryDeleted => 'Bilgi silindi';
+
+  @override
+  String get tasksAdd => 'Görev ekle';
+
+  @override
+  String get quickAddHint => 'Ne yapılması gerekiyor?';
+
+  @override
+  String get quickAddExample => 'örn. Yarın 9\'da sigortayı ara';
+
+  @override
+  String get quickAddTask => 'Görev';
+
+  @override
+  String get quickAddEvent => 'Etkinlik';
+
+  @override
+  String get quickAddNoDate => 'Tarih yok';
+
+  @override
+  String get quickAddRemind => 'Bana hatırlat';
+
+  @override
+  String get quickAddEventRemind => '15 dakika önce hatırlat';
+
+  @override
+  String get quickAddEventNeedsTime => 'Etkinliğin bir başlangıç saati olmalı.';
+
+  @override
+  String get quickAddSave => 'Ekle';
+
+  @override
+  String get quickAddClearDate => 'Tarihi kaldır';
+
+  @override
+  String get quickAddAllDay => 'Tüm gün';
+
+  @override
+  String get repeatNone => 'Tekrarlanmaz';
+
+  @override
+  String get repeatDaily => 'Her gün';
+
+  @override
+  String get repeatWeekly => 'Her hafta';
+
+  @override
+  String get repeatMonthly => 'Her ay';
+
+  @override
+  String get repeatYearly => 'Her yıl';
+
+  @override
+  String repeatEveryNDays(int n) {
+    return '$n günde bir';
+  }
+
+  @override
+  String get taskDone => 'Tamamlandı';
+
+  @override
+  String taskNextOccurrence(String date) {
+    return 'Tamamlandı. Sonraki: $date';
+  }
+
+  @override
+  String get taskUndo => 'Geri al';
+
+  @override
+  String get taskSave => 'Kaydet';
+
+  @override
+  String get taskDelete => 'Görevi sil';
+
+  @override
+  String get taskDeleted => 'Görev silindi';
+
+  @override
+  String get taskNotes => 'Notlar';
+
+  @override
+  String get dueToday => 'Bugün';
+
+  @override
+  String get dueTomorrow => 'Yarın';
+
+  @override
+  String get dueYesterday => 'Dün';
+
+  @override
+  String get tasksOverdueHeader => 'GECİKENLER';
+
+  @override
+  String get tasksTodayHeader => 'BUGÜN';
+
+  @override
+  String todayOverdue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count geciken görev',
+      one: '1 geciken görev',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reminderChannel => 'Hatırlatıcılar';
+
+  @override
+  String get auditTaskCreated => 'Görev eklendi';
+
+  @override
+  String get auditTaskCompleted => 'Görev tamamlandı';
+
+  @override
+  String get auditTaskReopened => 'Görev yeniden açıldı';
+
+  @override
+  String get auditTaskEdited => 'Görev düzenlendi';
+
+  @override
+  String get auditTaskDeleted => 'Görev silindi';
+
+  @override
+  String get auditEventCreated => 'Etkinlik eklendi';
+
+  @override
+  String get auditEventDeleted => 'Etkinlik silindi';
+
+  @override
+  String get auditReminderCreated => 'Hatırlatıcı eklendi';
+
+  @override
+  String get quickAddRepeatTooltip => 'Tekrar';
 }

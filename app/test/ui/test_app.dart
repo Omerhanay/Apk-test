@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:life_os/core/agent/tool_contract.dart';
 import 'package:life_os/core/ai/relay_client.dart';
 import 'package:life_os/core/db/database.dart';
+import 'package:life_os/core/planner/notification_scheduler.dart';
 import 'package:life_os/core/providers.dart';
 import 'package:life_os/core/security/authenticator.dart';
 import 'package:life_os/core/security/key_store.dart';
@@ -22,6 +23,21 @@ class FakeAuthenticator implements Authenticator {
   Future<AuthOutcome> authenticate(String reason) async {
     calls++;
     return outcome;
+  }
+}
+
+class FakeNotifications implements NotificationScheduler {
+  final scheduled = <String, ScheduledNotification>{};
+  int permissionRequests = 0;
+
+  @override
+  Future<void> schedule(ScheduledNotification n) async => scheduled[n.key] = n;
+  @override
+  Future<void> cancel(String key) async => scheduled.remove(key);
+  @override
+  Future<bool> requestPermission() async {
+    permissionRequests++;
+    return true;
   }
 }
 
@@ -48,6 +64,7 @@ class TestHarness {
   final Map<String, Object> prefs;
   final RelayClient Function(RelayCredentials)? relayClient;
   final secrets = MemorySecretStore();
+  final notifications = FakeNotifications();
   final db = LifeDatabase(NativeDatabase.memory());
   DateTime now = DateTime(2026, 9, 22, 9);
 
@@ -64,6 +81,7 @@ class TestHarness {
         // rootBundle does real I/O, which never completes inside testWidgets' fake async zone.
         toolRegistryProvider.overrideWith(
             (ref) async => ToolRegistry.fromContractJson(File('assets/contracts/agent-tools.json').readAsStringSync())),
+        notificationSchedulerProvider.overrideWith((ref) async => notifications),
         if (relayClient != null) relayClientFactoryProvider.overrideWithValue(relayClient!),
       ],
       child: const LifeOsApp(),

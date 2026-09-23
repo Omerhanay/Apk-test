@@ -30,7 +30,7 @@ class LifeDatabase extends _$LifeDatabase {
   LifeDatabase(super.executor);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -39,6 +39,9 @@ class LifeDatabase extends _$LifeDatabase {
           for (final stmt in _indexes) {
             await customStatement(stmt);
           }
+        },
+        onUpgrade: (m, from, to) async {
+          if (from < 2) await m.addColumn(tasks, tasks.allDay);
         },
         beforeOpen: (details) async {
           await customStatement('PRAGMA foreign_keys = ON');

@@ -149,6 +149,9 @@ class Tasks extends Table with Provenance {
   IntColumn get status => intEnum<TaskStatus>().withDefault(const Constant(0))();
   IntColumn get priority => intEnum<Priority>().withDefault(const Constant(1))();
   DateTimeColumn get dueAt => dateTime().nullable()();
+
+  /// Schema v2: due on a date without a specific time.
+  BoolColumn get allDay => boolean().withDefault(const Constant(false))();
   TextColumn get recurrenceRule => text().nullable()();
   TextColumn get projectEntityId => text().nullable().references(Entities, #id)();
   DateTimeColumn get completedAt => dateTime().nullable()();

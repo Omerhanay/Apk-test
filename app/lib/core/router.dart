@@ -8,6 +8,7 @@ import '../features/memory/capture_sheet.dart';
 import '../features/memory/memory_detail_screen.dart';
 import '../features/memory/memory_screen.dart';
 import '../features/settings/activity_screen.dart';
+import '../features/tasks/quick_add_sheet.dart';
 import '../features/settings/permissions_screen.dart';
 import '../features/settings/relay_screen.dart';
 import '../features/settings/settings_screen.dart';
@@ -64,6 +65,8 @@ class _HomeShell extends StatelessWidget {
   const _HomeShell({required this.shell});
   final StatefulNavigationShell shell;
 
+  static const _todayTab = 0;
+  static const _tasksTab = 1;
   static const _memoryTab = 4;
 
   @override
@@ -102,6 +105,11 @@ class _HomeShell extends StatelessWidget {
         ),
       ),
       floatingActionButton: switch (shell.currentIndex) {
+        _todayTab || _tasksTab => FloatingActionButton(
+            tooltip: l.tasksAdd,
+            onPressed: () => showQuickAddSheet(context),
+            child: const Icon(Icons.add),
+          ),
         _memoryTab => FloatingActionButton(
             tooltip: l.memoryAdd,
             onPressed: () => showCaptureSheet(context),

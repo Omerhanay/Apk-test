@@ -5857,6 +5857,19 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
     type: DriftSqlType.dateTime,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _allDayMeta = const VerificationMeta('allDay');
+  @override
+  late final GeneratedColumn<bool> allDay = GeneratedColumn<bool>(
+    'all_day',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("all_day" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   static const VerificationMeta _recurrenceRuleMeta = const VerificationMeta(
     'recurrenceRule',
   );
@@ -5908,6 +5921,7 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
     status,
     priority,
     dueAt,
+    allDay,
     recurrenceRule,
     projectEntityId,
     completedAt,
@@ -5981,6 +5995,12 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
       context.handle(
         _dueAtMeta,
         dueAt.isAcceptableOrUnknown(data['due_at']!, _dueAtMeta),
+      );
+    }
+    if (data.containsKey('all_day')) {
+      context.handle(
+        _allDayMeta,
+        allDay.isAcceptableOrUnknown(data['all_day']!, _allDayMeta),
       );
     }
     if (data.containsKey('recurrence_rule')) {
@@ -6079,6 +6099,10 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}due_at'],
       ),
+      allDay: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}all_day'],
+      )!,
       recurrenceRule: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}recurrence_rule'],
@@ -6123,6 +6147,9 @@ class Task extends DataClass implements Insertable<Task> {
   final TaskStatus status;
   final Priority priority;
   final DateTime? dueAt;
+
+  /// Schema v2: due on a date without a specific time.
+  final bool allDay;
   final String? recurrenceRule;
   final String? projectEntityId;
   final DateTime? completedAt;
@@ -6140,6 +6167,7 @@ class Task extends DataClass implements Insertable<Task> {
     required this.status,
     required this.priority,
     this.dueAt,
+    required this.allDay,
     this.recurrenceRule,
     this.projectEntityId,
     this.completedAt,
@@ -6180,6 +6208,7 @@ class Task extends DataClass implements Insertable<Task> {
     if (!nullToAbsent || dueAt != null) {
       map['due_at'] = Variable<DateTime>(dueAt);
     }
+    map['all_day'] = Variable<bool>(allDay);
     if (!nullToAbsent || recurrenceRule != null) {
       map['recurrence_rule'] = Variable<String>(recurrenceRule);
     }
@@ -6215,6 +6244,7 @@ class Task extends DataClass implements Insertable<Task> {
       dueAt: dueAt == null && nullToAbsent
           ? const Value.absent()
           : Value(dueAt),
+      allDay: Value(allDay),
       recurrenceRule: recurrenceRule == null && nullToAbsent
           ? const Value.absent()
           : Value(recurrenceRule),
@@ -6254,6 +6284,7 @@ class Task extends DataClass implements Insertable<Task> {
         serializer.fromJson<int>(json['priority']),
       ),
       dueAt: serializer.fromJson<DateTime?>(json['dueAt']),
+      allDay: serializer.fromJson<bool>(json['allDay']),
       recurrenceRule: serializer.fromJson<String?>(json['recurrenceRule']),
       projectEntityId: serializer.fromJson<String?>(json['projectEntityId']),
       completedAt: serializer.fromJson<DateTime?>(json['completedAt']),
@@ -6284,6 +6315,7 @@ class Task extends DataClass implements Insertable<Task> {
         $TasksTable.$converterpriority.toJson(priority),
       ),
       'dueAt': serializer.toJson<DateTime?>(dueAt),
+      'allDay': serializer.toJson<bool>(allDay),
       'recurrenceRule': serializer.toJson<String?>(recurrenceRule),
       'projectEntityId': serializer.toJson<String?>(projectEntityId),
       'completedAt': serializer.toJson<DateTime?>(completedAt),
@@ -6304,6 +6336,7 @@ class Task extends DataClass implements Insertable<Task> {
     TaskStatus? status,
     Priority? priority,
     Value<DateTime?> dueAt = const Value.absent(),
+    bool? allDay,
     Value<String?> recurrenceRule = const Value.absent(),
     Value<String?> projectEntityId = const Value.absent(),
     Value<DateTime?> completedAt = const Value.absent(),
@@ -6321,6 +6354,7 @@ class Task extends DataClass implements Insertable<Task> {
     status: status ?? this.status,
     priority: priority ?? this.priority,
     dueAt: dueAt.present ? dueAt.value : this.dueAt,
+    allDay: allDay ?? this.allDay,
     recurrenceRule: recurrenceRule.present
         ? recurrenceRule.value
         : this.recurrenceRule,
@@ -6348,6 +6382,7 @@ class Task extends DataClass implements Insertable<Task> {
       status: data.status.present ? data.status.value : this.status,
       priority: data.priority.present ? data.priority.value : this.priority,
       dueAt: data.dueAt.present ? data.dueAt.value : this.dueAt,
+      allDay: data.allDay.present ? data.allDay.value : this.allDay,
       recurrenceRule: data.recurrenceRule.present
           ? data.recurrenceRule.value
           : this.recurrenceRule,
@@ -6376,6 +6411,7 @@ class Task extends DataClass implements Insertable<Task> {
           ..write('status: $status, ')
           ..write('priority: $priority, ')
           ..write('dueAt: $dueAt, ')
+          ..write('allDay: $allDay, ')
           ..write('recurrenceRule: $recurrenceRule, ')
           ..write('projectEntityId: $projectEntityId, ')
           ..write('completedAt: $completedAt')
@@ -6398,6 +6434,7 @@ class Task extends DataClass implements Insertable<Task> {
     status,
     priority,
     dueAt,
+    allDay,
     recurrenceRule,
     projectEntityId,
     completedAt,
@@ -6419,6 +6456,7 @@ class Task extends DataClass implements Insertable<Task> {
           other.status == this.status &&
           other.priority == this.priority &&
           other.dueAt == this.dueAt &&
+          other.allDay == this.allDay &&
           other.recurrenceRule == this.recurrenceRule &&
           other.projectEntityId == this.projectEntityId &&
           other.completedAt == this.completedAt);
@@ -6438,6 +6476,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
   final Value<TaskStatus> status;
   final Value<Priority> priority;
   final Value<DateTime?> dueAt;
+  final Value<bool> allDay;
   final Value<String?> recurrenceRule;
   final Value<String?> projectEntityId;
   final Value<DateTime?> completedAt;
@@ -6456,6 +6495,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     this.status = const Value.absent(),
     this.priority = const Value.absent(),
     this.dueAt = const Value.absent(),
+    this.allDay = const Value.absent(),
     this.recurrenceRule = const Value.absent(),
     this.projectEntityId = const Value.absent(),
     this.completedAt = const Value.absent(),
@@ -6475,6 +6515,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     this.status = const Value.absent(),
     this.priority = const Value.absent(),
     this.dueAt = const Value.absent(),
+    this.allDay = const Value.absent(),
     this.recurrenceRule = const Value.absent(),
     this.projectEntityId = const Value.absent(),
     this.completedAt = const Value.absent(),
@@ -6498,6 +6539,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     Expression<int>? status,
     Expression<int>? priority,
     Expression<DateTime>? dueAt,
+    Expression<bool>? allDay,
     Expression<String>? recurrenceRule,
     Expression<String>? projectEntityId,
     Expression<DateTime>? completedAt,
@@ -6517,6 +6559,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
       if (status != null) 'status': status,
       if (priority != null) 'priority': priority,
       if (dueAt != null) 'due_at': dueAt,
+      if (allDay != null) 'all_day': allDay,
       if (recurrenceRule != null) 'recurrence_rule': recurrenceRule,
       if (projectEntityId != null) 'project_entity_id': projectEntityId,
       if (completedAt != null) 'completed_at': completedAt,
@@ -6538,6 +6581,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     Value<TaskStatus>? status,
     Value<Priority>? priority,
     Value<DateTime?>? dueAt,
+    Value<bool>? allDay,
     Value<String?>? recurrenceRule,
     Value<String?>? projectEntityId,
     Value<DateTime?>? completedAt,
@@ -6557,6 +6601,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
       status: status ?? this.status,
       priority: priority ?? this.priority,
       dueAt: dueAt ?? this.dueAt,
+      allDay: allDay ?? this.allDay,
       recurrenceRule: recurrenceRule ?? this.recurrenceRule,
       projectEntityId: projectEntityId ?? this.projectEntityId,
       completedAt: completedAt ?? this.completedAt,
@@ -6614,6 +6659,9 @@ class TasksCompanion extends UpdateCompanion<Task> {
     if (dueAt.present) {
       map['due_at'] = Variable<DateTime>(dueAt.value);
     }
+    if (allDay.present) {
+      map['all_day'] = Variable<bool>(allDay.value);
+    }
     if (recurrenceRule.present) {
       map['recurrence_rule'] = Variable<String>(recurrenceRule.value);
     }
@@ -6645,6 +6693,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
           ..write('status: $status, ')
           ..write('priority: $priority, ')
           ..write('dueAt: $dueAt, ')
+          ..write('allDay: $allDay, ')
           ..write('recurrenceRule: $recurrenceRule, ')
           ..write('projectEntityId: $projectEntityId, ')
           ..write('completedAt: $completedAt, ')
@@ -16710,6 +16759,7 @@ typedef $$TasksTableCreateCompanionBuilder = TasksCompanion Function({
   Value<TaskStatus> status,
   Value<Priority> priority,
   Value<DateTime?> dueAt,
+  Value<bool> allDay,
   Value<String?> recurrenceRule,
   Value<String?> projectEntityId,
   Value<DateTime?> completedAt,
@@ -16729,6 +16779,7 @@ typedef $$TasksTableUpdateCompanionBuilder = TasksCompanion Function({
   Value<TaskStatus> status,
   Value<Priority> priority,
   Value<DateTime?> dueAt,
+  Value<bool> allDay,
   Value<String?> recurrenceRule,
   Value<String?> projectEntityId,
   Value<DateTime?> completedAt,
@@ -16849,6 +16900,11 @@ class $$TasksTableFilterComposer extends Composer<_$LifeDatabase, $TasksTable> {
 
   ColumnFilters<DateTime> get dueAt => $composableBuilder(
     column: $table.dueAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get allDay => $composableBuilder(
+    column: $table.allDay,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -16985,6 +17041,11 @@ class $$TasksTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get allDay => $composableBuilder(
+    column: $table.allDay,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get recurrenceRule => $composableBuilder(
     column: $table.recurrenceRule,
     builder: (column) => ColumnOrderings(column),
@@ -17071,6 +17132,9 @@ class $$TasksTableAnnotationComposer
 
   GeneratedColumn<DateTime> get dueAt =>
       $composableBuilder(column: $table.dueAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get allDay =>
+      $composableBuilder(column: $table.allDay, builder: (column) => column);
 
   GeneratedColumn<String> get recurrenceRule => $composableBuilder(
     column: $table.recurrenceRule,
@@ -17172,6 +17236,7 @@ class $$TasksTableTableManager
                 Value<TaskStatus> status = const Value.absent(),
                 Value<Priority> priority = const Value.absent(),
                 Value<DateTime?> dueAt = const Value.absent(),
+                Value<bool> allDay = const Value.absent(),
                 Value<String?> recurrenceRule = const Value.absent(),
                 Value<String?> projectEntityId = const Value.absent(),
                 Value<DateTime?> completedAt = const Value.absent(),
@@ -17190,6 +17255,7 @@ class $$TasksTableTableManager
                 status: status,
                 priority: priority,
                 dueAt: dueAt,
+                allDay: allDay,
                 recurrenceRule: recurrenceRule,
                 projectEntityId: projectEntityId,
                 completedAt: completedAt,
@@ -17210,6 +17276,7 @@ class $$TasksTableTableManager
                 Value<TaskStatus> status = const Value.absent(),
                 Value<Priority> priority = const Value.absent(),
                 Value<DateTime?> dueAt = const Value.absent(),
+                Value<bool> allDay = const Value.absent(),
                 Value<String?> recurrenceRule = const Value.absent(),
                 Value<String?> projectEntityId = const Value.absent(),
                 Value<DateTime?> completedAt = const Value.absent(),
@@ -17228,6 +17295,7 @@ class $$TasksTableTableManager
                 status: status,
                 priority: priority,
                 dueAt: dueAt,
+                allDay: allDay,
                 recurrenceRule: recurrenceRule,
                 projectEntityId: projectEntityId,
                 completedAt: completedAt,

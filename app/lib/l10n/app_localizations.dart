@@ -1045,6 +1045,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Memory deleted'**
   String get auditMemoryDeleted;
+
+  /// No description provided for @tasksAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add task'**
+  String get tasksAdd;
+
+  /// No description provided for @quickAddHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What needs doing?'**
+  String get quickAddHint;
+
+  /// No description provided for @quickAddExample.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Call insurance tomorrow at 9'**
+  String get quickAddExample;
+
+  /// No description provided for @quickAddTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get quickAddTask;
+
+  /// No description provided for @quickAddEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get quickAddEvent;
+
+  /// No description provided for @quickAddNoDate.
+  ///
+  /// In en, this message translates to:
+  /// **'No date'**
+  String get quickAddNoDate;
+
+  /// No description provided for @quickAddRemind.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me'**
+  String get quickAddRemind;
+
+  /// No description provided for @quickAddEventRemind.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me 15 minutes before'**
+  String get quickAddEventRemind;
+
+  /// No description provided for @quickAddEventNeedsTime.
+  ///
+  /// In en, this message translates to:
+  /// **'An event needs a start time.'**
+  String get quickAddEventNeedsTime;
+
+  /// No description provided for @quickAddSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get quickAddSave;
+
+  /// No description provided for @quickAddClearDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove date'**
+  String get quickAddClearDate;
+
+  /// No description provided for @quickAddAllDay.
+  ///
+  /// In en, this message translates to:
+  /// **'All day'**
+  String get quickAddAllDay;
+
+  /// No description provided for @repeatNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Doesn\'t repeat'**
+  String get repeatNone;
+
+  /// No description provided for @repeatDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get repeatDaily;
+
+  /// No description provided for @repeatWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every week'**
+  String get repeatWeekly;
+
+  /// No description provided for @repeatMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every month'**
+  String get repeatMonthly;
+
+  /// No description provided for @repeatYearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every year'**
+  String get repeatYearly;
+
+  /// No description provided for @repeatEveryNDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Every {n} days'**
+  String repeatEveryNDays(int n);
+
+  /// No description provided for @taskDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get taskDone;
+
+  /// No description provided for @taskNextOccurrence.
+  ///
+  /// In en, this message translates to:
+  /// **'Done. Next: {date}'**
+  String taskNextOccurrence(String date);
+
+  /// No description provided for @taskUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get taskUndo;
+
+  /// No description provided for @taskSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get taskSave;
+
+  /// No description provided for @taskDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete task'**
+  String get taskDelete;
+
+  /// No description provided for @taskDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Task deleted'**
+  String get taskDeleted;
+
+  /// No description provided for @taskNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get taskNotes;
+
+  /// No description provided for @dueToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get dueToday;
+
+  /// No description provided for @dueTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get dueTomorrow;
+
+  /// No description provided for @dueYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get dueYesterday;
+
+  /// No description provided for @tasksOverdueHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'OVERDUE'**
+  String get tasksOverdueHeader;
+
+  /// No description provided for @tasksTodayHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'TODAY'**
+  String get tasksTodayHeader;
+
+  /// No description provided for @todayOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 overdue task} other{{count} overdue tasks}}'**
+  String todayOverdue(int count);
+
+  /// No description provided for @reminderChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get reminderChannel;
+
+  /// No description provided for @auditTaskCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Task added'**
+  String get auditTaskCreated;
+
+  /// No description provided for @auditTaskCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Task completed'**
+  String get auditTaskCompleted;
+
+  /// No description provided for @auditTaskReopened.
+  ///
+  /// In en, this message translates to:
+  /// **'Task reopened'**
+  String get auditTaskReopened;
+
+  /// No description provided for @auditTaskEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'Task edited'**
+  String get auditTaskEdited;
+
+  /// No description provided for @auditTaskDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Task deleted'**
+  String get auditTaskDeleted;
+
+  /// No description provided for @auditEventCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Event added'**
+  String get auditEventCreated;
+
+  /// No description provided for @auditEventDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Event deleted'**
+  String get auditEventDeleted;
+
+  /// No description provided for @auditReminderCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder added'**
+  String get auditReminderCreated;
+
+  /// No description provided for @quickAddRepeatTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat'**
+  String get quickAddRepeatTooltip;
 }
 
 class _AppLocalizationsDelegate

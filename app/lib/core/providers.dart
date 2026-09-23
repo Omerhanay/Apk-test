@@ -1,3 +1,5 @@
+import 'dart:ui' show Locale, PlatformDispatcher;
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,9 +10,12 @@ import 'db/database.dart';
 import 'locale.dart';
 import 'memory/memory_repository.dart';
 import 'permissions/permission_repository.dart';
+import 'planner/notification_scheduler.dart';
+import 'planner/planner_repository.dart';
 import 'security/app_lock.dart';
 import 'security/authenticator.dart';
 import 'security/key_store.dart';
+import '../l10n/app_localizations.dart';
 
 export 'locale.dart' show sharedPreferencesProvider;
 
@@ -47,6 +52,22 @@ final permissionRepositoryProvider = FutureProvider<PermissionRepository>((ref) 
 
 final memoryRepositoryProvider = FutureProvider<MemoryRepository>((ref) async {
   return MemoryRepository(await ref.watch(databaseProvider.future), clock: ref.watch(clockProvider));
+});
+
+/// Android notifications. The channel name appears in system settings, so it
+/// follows the device language.
+final notificationSchedulerProvider = FutureProvider<NotificationScheduler>((ref) async {
+  final device = PlatformDispatcher.instance.locale;
+  final l = AppLocalizations.delegate.isSupported(device) ? lookupAppLocalizations(device) : lookupAppLocalizations(const Locale('en'));
+  return LocalNotificationScheduler.create(channelName: l.reminderChannel);
+});
+
+final plannerRepositoryProvider = FutureProvider<PlannerRepository>((ref) async {
+  return PlannerRepository(
+    await ref.watch(databaseProvider.future),
+    await ref.watch(notificationSchedulerProvider.future),
+    clock: ref.watch(clockProvider),
+  );
 });
 
 final relayCredentialsProvider = FutureProvider<RelayCredentials?>((ref) => ref.watch(keyStoreProvider).relayCredentials());

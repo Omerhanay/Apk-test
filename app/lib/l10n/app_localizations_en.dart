@@ -517,4 +517,139 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get auditMemoryDeleted => 'Memory deleted';
+
+  @override
+  String get tasksAdd => 'Add task';
+
+  @override
+  String get quickAddHint => 'What needs doing?';
+
+  @override
+  String get quickAddExample => 'e.g. Call insurance tomorrow at 9';
+
+  @override
+  String get quickAddTask => 'Task';
+
+  @override
+  String get quickAddEvent => 'Event';
+
+  @override
+  String get quickAddNoDate => 'No date';
+
+  @override
+  String get quickAddRemind => 'Remind me';
+
+  @override
+  String get quickAddEventRemind => 'Remind me 15 minutes before';
+
+  @override
+  String get quickAddEventNeedsTime => 'An event needs a start time.';
+
+  @override
+  String get quickAddSave => 'Add';
+
+  @override
+  String get quickAddClearDate => 'Remove date';
+
+  @override
+  String get quickAddAllDay => 'All day';
+
+  @override
+  String get repeatNone => 'Doesn\'t repeat';
+
+  @override
+  String get repeatDaily => 'Every day';
+
+  @override
+  String get repeatWeekly => 'Every week';
+
+  @override
+  String get repeatMonthly => 'Every month';
+
+  @override
+  String get repeatYearly => 'Every year';
+
+  @override
+  String repeatEveryNDays(int n) {
+    return 'Every $n days';
+  }
+
+  @override
+  String get taskDone => 'Done';
+
+  @override
+  String taskNextOccurrence(String date) {
+    return 'Done. Next: $date';
+  }
+
+  @override
+  String get taskUndo => 'Undo';
+
+  @override
+  String get taskSave => 'Save';
+
+  @override
+  String get taskDelete => 'Delete task';
+
+  @override
+  String get taskDeleted => 'Task deleted';
+
+  @override
+  String get taskNotes => 'Notes';
+
+  @override
+  String get dueToday => 'Today';
+
+  @override
+  String get dueTomorrow => 'Tomorrow';
+
+  @override
+  String get dueYesterday => 'Yesterday';
+
+  @override
+  String get tasksOverdueHeader => 'OVERDUE';
+
+  @override
+  String get tasksTodayHeader => 'TODAY';
+
+  @override
+  String todayOverdue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count overdue tasks',
+      one: '1 overdue task',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reminderChannel => 'Reminders';
+
+  @override
+  String get auditTaskCreated => 'Task added';
+
+  @override
+  String get auditTaskCompleted => 'Task completed';
+
+  @override
+  String get auditTaskReopened => 'Task reopened';
+
+  @override
+  String get auditTaskEdited => 'Task edited';
+
+  @override
+  String get auditTaskDeleted => 'Task deleted';
+
+  @override
+  String get auditEventCreated => 'Event added';
+
+  @override
+  String get auditEventDeleted => 'Event deleted';
+
+  @override
+  String get auditReminderCreated => 'Reminder added';
+
+  @override
+  String get quickAddRepeatTooltip => 'Repeat';
 }

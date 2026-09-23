@@ -192,5 +192,67 @@
   "auditMemoryEdited": "Memory edited",
   "auditMemoryRetracted": "Memory marked no longer true",
   "auditMemorySuperseded": "Memory replaced by a newer one",
-  "auditMemoryDeleted": "Memory deleted"
+  "auditMemoryDeleted": "Memory deleted",
+  "tasksAdd": "Add task",
+  "quickAddHint": "What needs doing?",
+  "quickAddExample": "e.g. Call insurance tomorrow at 9",
+  "quickAddTask": "Task",
+  "quickAddEvent": "Event",
+  "quickAddNoDate": "No date",
+  "quickAddRemind": "Remind me",
+  "quickAddEventRemind": "Remind me 15 minutes before",
+  "quickAddEventNeedsTime": "An event needs a start time.",
+  "quickAddSave": "Add",
+  "quickAddClearDate": "Remove date",
+  "quickAddAllDay": "All day",
+  "repeatNone": "Doesn't repeat",
+  "repeatDaily": "Every day",
+  "repeatWeekly": "Every week",
+  "repeatMonthly": "Every month",
+  "repeatYearly": "Every year",
+  "repeatEveryNDays": "Every {n} days",
+  "@repeatEveryNDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "taskDone": "Done",
+  "taskNextOccurrence": "Done. Next: {date}",
+  "@taskNextOccurrence": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "taskUndo": "Undo",
+  "taskSave": "Save",
+  "taskDelete": "Delete task",
+  "taskDeleted": "Task deleted",
+  "taskNotes": "Notes",
+  "dueToday": "Today",
+  "dueTomorrow": "Tomorrow",
+  "dueYesterday": "Yesterday",
+  "tasksOverdueHeader": "OVERDUE",
+  "tasksTodayHeader": "TODAY",
+  "todayOverdue": "{count, plural, =1{1 overdue task} other{{count} overdue tasks}}",
+  "@todayOverdue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderChannel": "Reminders",
+  "auditTaskCreated": "Task added",
+  "auditTaskCompleted": "Task completed",
+  "auditTaskReopened": "Task reopened",
+  "auditTaskEdited": "Task edited",
+  "auditTaskDeleted": "Task deleted",
+  "auditEventCreated": "Event added",
+  "auditEventDeleted": "Event deleted",
+  "auditReminderCreated": "Reminder added",
+  "quickAddRepeatTooltip": "Repeat"
 }

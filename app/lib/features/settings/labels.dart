@@ -1,4 +1,7 @@
 import '../../core/db/tables.dart' show Source;
+import 'package:intl/intl.dart';
+
+import '../../core/time/recurrence.dart';
 import '../../l10n/app_localizations.dart';
 
 /// User-facing names for permission capabilities. Unknown codes are shown as-is
@@ -29,6 +32,14 @@ String auditActionLabel(AppLocalizations l, String action) => switch (action) {
       'memory_retracted' => l.auditMemoryRetracted,
       'memory_superseded' => l.auditMemorySuperseded,
       'memory_deleted' => l.auditMemoryDeleted,
+      'task_created' => l.auditTaskCreated,
+      'task_completed' => l.auditTaskCompleted,
+      'task_reopened' => l.auditTaskReopened,
+      'task_edited' => l.auditTaskEdited,
+      'task_deleted' => l.auditTaskDeleted,
+      'event_created' => l.auditEventCreated,
+      'event_deleted' => l.auditEventDeleted,
+      'reminder_created' => l.auditReminderCreated,
       _ => action,
     };
 
@@ -52,3 +63,28 @@ String memorySourceLabel(AppLocalizations l, Source source) => switch (source) {
       Source.integration => l.memorySourceIntegration,
       Source.system => l.memorySourceSystem,
     };
+
+String recurrenceLabel(AppLocalizations l, Recurrence? r) {
+  if (r == null) return l.repeatNone;
+  if (r.frequency == Frequency.daily && r.interval > 1) return l.repeatEveryNDays(r.interval);
+  return switch (r.frequency) {
+    Frequency.daily => l.repeatDaily,
+    Frequency.weekly => l.repeatWeekly,
+    Frequency.monthly => l.repeatMonthly,
+    Frequency.yearly => l.repeatYearly,
+  };
+}
+
+/// "Today 09:00", "Tomorrow", "Fri 2 Oct 14:30" in the active locale.
+String dueLabel(AppLocalizations l, String locale, DateTime due, {required bool allDay, required DateTime now}) {
+  // UTC dates: a local day across a DST change can be 23 or 25 hours long.
+  final day = DateTime.utc(due.year, due.month, due.day);
+  final today = DateTime.utc(now.year, now.month, now.day);
+  final dayPart = switch (day.difference(today).inDays) {
+    0 => l.dueToday,
+    1 => l.dueTomorrow,
+    -1 => l.dueYesterday,
+    _ => DateFormat.MMMEd(locale).format(due),
+  };
+  return allDay ? dayPart : '$dayPart ${DateFormat.Hm(locale).format(due)}';
+}

@@ -38,9 +38,9 @@ void main() {
 
   test('greeting follows the time of day', () {
     final en = AppLocalizationsEn();
-    expect(TodayScreen.greetingFor(DateTime(2026, 9, 22, 8), en), 'Good morning');
-    expect(TodayScreen.greetingFor(DateTime(2026, 9, 22, 14), en), 'Good afternoon');
-    expect(TodayScreen.greetingFor(DateTime(2026, 9, 22, 21), en), 'Good evening');
-    expect(TodayScreen.greetingFor(DateTime(2026, 9, 22, 8), AppLocalizationsTr()), 'Günaydın');
+    expect(TodayHeader.greetingFor(DateTime(2026, 9, 22, 8), en), 'Good morning');
+    expect(TodayHeader.greetingFor(DateTime(2026, 9, 22, 14), en), 'Good afternoon');
+    expect(TodayHeader.greetingFor(DateTime(2026, 9, 22, 21), en), 'Good evening');
+    expect(TodayHeader.greetingFor(DateTime(2026, 9, 22, 8), AppLocalizationsTr()), 'Günaydın');
   });
 }
