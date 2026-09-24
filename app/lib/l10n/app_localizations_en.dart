@@ -116,21 +116,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lifeTimelineEmptyBody =>
-      'Events, uploads and reminders appear here in order.';
+      'Fills in by itself: upcoming events, tasks, birthdays and expiry dates, and what you added or completed.';
 
   @override
   String get lifePeopleEmptyTitle => 'No people yet';
 
   @override
   String get lifePeopleEmptyBody =>
-      'People you mention, like family members, are linked here.';
+      'Add your family and the people who matter. Birthdays are remembered every year, and everything that mentions them is gathered on their page.';
 
   @override
   String get lifeThingsEmptyTitle => 'No things yet';
 
   @override
   String get lifeThingsEmptyBody =>
-      'Vehicles, subscriptions and trips are linked here.';
+      'Add your car, home, subscriptions and devices with their dates — inspection, insurance, renewal — and get reminded in time.';
 
   @override
   String get memoryEmptyTitle => 'LIFE OS knows nothing yet';
@@ -846,4 +846,192 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get auditDocumentAiFields => 'AI suggestions checked';
+
+  @override
+  String get lifeAddTooltip => 'Add to Life';
+
+  @override
+  String get lifeAddPerson => 'Add person';
+
+  @override
+  String get lifeAddThing => 'Add thing';
+
+  @override
+  String get lifeName => 'Name';
+
+  @override
+  String get lifeRelation => 'Relation';
+
+  @override
+  String get relSpouse => 'Spouse';
+
+  @override
+  String get relChild => 'Child';
+
+  @override
+  String get relParent => 'Parent';
+
+  @override
+  String get relSibling => 'Sibling';
+
+  @override
+  String get relRelative => 'Relative';
+
+  @override
+  String get relFriend => 'Friend';
+
+  @override
+  String get relColleague => 'Colleague';
+
+  @override
+  String get relOther => 'Other';
+
+  @override
+  String get lifeBirthday => 'Birthday';
+
+  @override
+  String get lifeSetBirthday => 'Add birthday';
+
+  @override
+  String get lifeBirthYearUnknown => 'I don\'t know the year';
+
+  @override
+  String get lifeNoReminder => 'No reminder';
+
+  @override
+  String get thingVehicle => 'Vehicle';
+
+  @override
+  String get thingHome => 'Home';
+
+  @override
+  String get thingSubscription => 'Subscription';
+
+  @override
+  String get thingDevice => 'Device';
+
+  @override
+  String get thingPet => 'Pet';
+
+  @override
+  String get thingOther => 'Other';
+
+  @override
+  String get dateKindBirthday => 'Birthday';
+
+  @override
+  String get dateKindExpires => 'Expires';
+
+  @override
+  String get dateKindRenews => 'Renewal';
+
+  @override
+  String get dateKindInspection => 'Inspection';
+
+  @override
+  String get dateKindService => 'Service';
+
+  @override
+  String get dateKindPayment => 'Payment';
+
+  @override
+  String get dateKindOther => 'Date';
+
+  @override
+  String get dateKindStarts => 'Starts';
+
+  @override
+  String get dateKindIssued => 'Issued';
+
+  @override
+  String get dateKindDue => 'Due';
+
+  @override
+  String get lifeAddDate => 'Add date';
+
+  @override
+  String get lifeDateKind => 'What date is it?';
+
+  @override
+  String get lifePickDate => 'Pick a date';
+
+  @override
+  String get lifeDates => 'DATES';
+
+  @override
+  String get lifeRelated => 'RELATED';
+
+  @override
+  String lifeRelatedNone(String name) {
+    return 'Nothing mentions $name yet.';
+  }
+
+  @override
+  String lifeTurns(int age, String date) {
+    return 'Turns $age on $date';
+  }
+
+  @override
+  String lifeNext(String date) {
+    return 'Next: $date';
+  }
+
+  @override
+  String lifeDeleteConfirmTitle(String name) {
+    return 'Delete $name?';
+  }
+
+  @override
+  String get lifeDelete => 'Delete';
+
+  @override
+  String get lifeDeleted => 'Deleted';
+
+  @override
+  String get lifeRemoveDate => 'Remove date';
+
+  @override
+  String get lifeDeleteConfirmBody =>
+      'Its dates and reminders will be removed too.';
+
+  @override
+  String lifeReminderTitle(String name, String kind, String date) {
+    return '$name · $kind ($date)';
+  }
+
+  @override
+  String get tlEvent => 'Event';
+
+  @override
+  String get tlTaskDue => 'Task';
+
+  @override
+  String get tlTaskDone => 'Completed';
+
+  @override
+  String get tlDocument => 'Document added';
+
+  @override
+  String get tlMemory => 'Remembered';
+
+  @override
+  String get auditPersonAdded => 'Person added';
+
+  @override
+  String get auditPersonEdited => 'Person edited';
+
+  @override
+  String get auditPersonDeleted => 'Person deleted';
+
+  @override
+  String get auditThingAdded => 'Thing added';
+
+  @override
+  String get auditThingEdited => 'Thing edited';
+
+  @override
+  String get auditThingDeleted => 'Thing deleted';
+
+  @override
+  String get auditDateAdded => 'Date added';
 }

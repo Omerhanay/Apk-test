@@ -33,11 +33,11 @@
   "lifeTabPeople": "People",
   "lifeTabThings": "Things",
   "lifeTimelineEmptyTitle": "Your timeline is empty",
-  "lifeTimelineEmptyBody": "Events, uploads and reminders appear here in order.",
+  "lifeTimelineEmptyBody": "Fills in by itself: upcoming events, tasks, birthdays and expiry dates, and what you added or completed.",
   "lifePeopleEmptyTitle": "No people yet",
-  "lifePeopleEmptyBody": "People you mention, like family members, are linked here.",
+  "lifePeopleEmptyBody": "Add your family and the people who matter. Birthdays are remembered every year, and everything that mentions them is gathered on their page.",
   "lifeThingsEmptyTitle": "No things yet",
-  "lifeThingsEmptyBody": "Vehicles, subscriptions and trips are linked here.",
+  "lifeThingsEmptyBody": "Add your car, home, subscriptions and devices with their dates — inspection, insurance, renewal — and get reminded in time.",
   "memoryEmptyTitle": "LIFE OS knows nothing yet",
   "memoryEmptyBody": "Tell LIFE OS about your life with the + button. Everything it remembers is listed here with where it came from, and you can edit or delete any of it.",
   "settingsTitle": "Settings & privacy",
@@ -349,5 +349,108 @@
   "auditDocumentAdded": "Document added",
   "auditDocumentReviewed": "Document reviewed",
   "auditDocumentDeleted": "Document deleted",
-  "auditDocumentAiFields": "AI suggestions checked"
+  "auditDocumentAiFields": "AI suggestions checked",
+  "lifeAddTooltip": "Add to Life",
+  "lifeAddPerson": "Add person",
+  "lifeAddThing": "Add thing",
+  "lifeName": "Name",
+  "lifeRelation": "Relation",
+  "relSpouse": "Spouse",
+  "relChild": "Child",
+  "relParent": "Parent",
+  "relSibling": "Sibling",
+  "relRelative": "Relative",
+  "relFriend": "Friend",
+  "relColleague": "Colleague",
+  "relOther": "Other",
+  "lifeBirthday": "Birthday",
+  "lifeSetBirthday": "Add birthday",
+  "lifeBirthYearUnknown": "I don't know the year",
+  "lifeNoReminder": "No reminder",
+  "thingVehicle": "Vehicle",
+  "thingHome": "Home",
+  "thingSubscription": "Subscription",
+  "thingDevice": "Device",
+  "thingPet": "Pet",
+  "thingOther": "Other",
+  "dateKindBirthday": "Birthday",
+  "dateKindExpires": "Expires",
+  "dateKindRenews": "Renewal",
+  "dateKindInspection": "Inspection",
+  "dateKindService": "Service",
+  "dateKindPayment": "Payment",
+  "dateKindOther": "Date",
+  "dateKindStarts": "Starts",
+  "dateKindIssued": "Issued",
+  "dateKindDue": "Due",
+  "lifeAddDate": "Add date",
+  "lifeDateKind": "What date is it?",
+  "lifePickDate": "Pick a date",
+  "lifeDates": "DATES",
+  "lifeRelated": "RELATED",
+  "lifeRelatedNone": "Nothing mentions {name} yet.",
+  "@lifeRelatedNone": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "lifeTurns": "Turns {age} on {date}",
+  "@lifeTurns": {
+    "placeholders": {
+      "age": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "lifeNext": "Next: {date}",
+  "@lifeNext": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "lifeDeleteConfirmTitle": "Delete {name}?",
+  "@lifeDeleteConfirmTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "lifeDelete": "Delete",
+  "lifeDeleted": "Deleted",
+  "lifeRemoveDate": "Remove date",
+  "lifeDeleteConfirmBody": "Its dates and reminders will be removed too.",
+  "lifeReminderTitle": "{name} · {kind} ({date})",
+  "@lifeReminderTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "kind": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "tlEvent": "Event",
+  "tlTaskDue": "Task",
+  "tlTaskDone": "Completed",
+  "tlDocument": "Document added",
+  "tlMemory": "Remembered",
+  "auditPersonAdded": "Person added",
+  "auditPersonEdited": "Person edited",
+  "auditPersonDeleted": "Person deleted",
+  "auditThingAdded": "Thing added",
+  "auditThingEdited": "Thing edited",
+  "auditThingDeleted": "Thing deleted",
+  "auditDateAdded": "Date added"
 }

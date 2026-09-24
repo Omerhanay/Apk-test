@@ -6,6 +6,7 @@ import '../../core/providers.dart';
 import '../../core/security/app_lock.dart';
 import '../../core/security/authenticator.dart';
 import '../../l10n/app_localizations.dart';
+import '../settings/labels.dart';
 
 /// Shows the app only when unlocked. Before that it shows the first-run welcome
 /// or the lock screen, so no personal data is built into the widget tree.
@@ -47,6 +48,7 @@ class _LockGateState extends ConsumerState<LockGate> with WidgetsBindingObserver
 
   Future<void> _unlock() async {
     final l = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).toLanguageTag();
     final outcome = await ref.read(appLockProvider.notifier).unlock(l.lockReason);
     if (!mounted) return;
     setState(() => _lastOutcome = outcome);
@@ -56,6 +58,9 @@ class _LockGateState extends ConsumerState<LockGate> with WidgetsBindingObserver
       await db.audit(actor: 'user', action: 'app_unlocked', outcome: 'ok');
       // Creates first-run default permissions, so the firewall never runs on an empty grant table.
       await ref.read(permissionRepositoryProvider.future);
+      // Each reminder fires once; re-arm birthdays and other yearly dates.
+      final life = await ref.read(lifeRepositoryProvider.future);
+      await life.ensureUpcomingReminders(titleFor: lifeReminderTitle(l, locale));
     }
   }
 

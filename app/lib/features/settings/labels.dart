@@ -1,6 +1,7 @@
 import '../../core/db/tables.dart' show Source;
 import 'package:intl/intl.dart';
 
+import '../../core/life/life_repository.dart' show ReminderTitle;
 import '../../core/time/recurrence.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -44,6 +45,13 @@ String auditActionLabel(AppLocalizations l, String action) => switch (action) {
       'document_reviewed' => l.auditDocumentReviewed,
       'document_deleted' => l.auditDocumentDeleted,
       'document_ai_fields' => l.auditDocumentAiFields,
+      'person_added' => l.auditPersonAdded,
+      'person_edited' => l.auditPersonEdited,
+      'person_deleted' => l.auditPersonDeleted,
+      'thing_added' => l.auditThingAdded,
+      'thing_edited' => l.auditThingEdited,
+      'thing_deleted' => l.auditThingDeleted,
+      'date_added' => l.auditDateAdded,
       _ => action,
     };
 
@@ -122,3 +130,41 @@ String documentTypeLabel(AppLocalizations l, String? type) => switch (type) {
       'medical' => l.docTypeMedical,
       _ => l.docTypeOther,
     };
+
+String relationLabel(AppLocalizations l, String? r) => switch (r) {
+      'spouse' => l.relSpouse,
+      'child' => l.relChild,
+      'parent' => l.relParent,
+      'sibling' => l.relSibling,
+      'relative' => l.relRelative,
+      'friend' => l.relFriend,
+      'colleague' => l.relColleague,
+      _ => l.relOther,
+    };
+
+String thingTypeLabel(AppLocalizations l, String? t) => switch (t) {
+      'vehicle' => l.thingVehicle,
+      'home' => l.thingHome,
+      'subscription' => l.thingSubscription,
+      'device' => l.thingDevice,
+      'pet' => l.thingPet,
+      _ => l.thingOther,
+    };
+
+/// Entity date kinds, including the ones documents create (expires, starts, …).
+String dateKindLabel(AppLocalizations l, String? k) => switch (k) {
+      'birthday' => l.dateKindBirthday,
+      'expires' => l.dateKindExpires,
+      'renews' => l.dateKindRenews,
+      'inspection' => l.dateKindInspection,
+      'service' => l.dateKindService,
+      'payment' => l.dateKindPayment,
+      'starts' => l.dateKindStarts,
+      'issued' => l.dateKindIssued,
+      'due' => l.dateKindDue,
+      _ => l.dateKindOther,
+    };
+
+/// Localized reminder titles for people's and things' dates.
+ReminderTitle lifeReminderTitle(AppLocalizations l, String locale) =>
+    (name, kind, occurrence) => l.lifeReminderTitle(name, dateKindLabel(l, kind), DateFormat.MMMMd(locale).format(occurrence));

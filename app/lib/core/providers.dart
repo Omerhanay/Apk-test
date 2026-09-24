@@ -13,6 +13,7 @@ import 'db/database.dart';
 import 'documents/blob_store.dart';
 import 'documents/document_repository.dart';
 import 'documents/text_extractor.dart';
+import 'life/life_repository.dart';
 import 'locale.dart';
 import 'memory/memory_repository.dart';
 import 'permissions/permission_repository.dart';
@@ -90,6 +91,14 @@ final documentRepositoryProvider = FutureProvider<DocumentRepository>((ref) asyn
     await ref.watch(databaseProvider.future),
     await ref.watch(blobStoreProvider.future),
     ref.watch(textExtractorProvider),
+    await ref.watch(plannerRepositoryProvider.future),
+    clock: ref.watch(clockProvider),
+  );
+});
+
+final lifeRepositoryProvider = FutureProvider<LifeRepository>((ref) async {
+  return LifeRepository(
+    await ref.watch(databaseProvider.future),
     await ref.watch(plannerRepositoryProvider.future),
     clock: ref.watch(clockProvider),
   );

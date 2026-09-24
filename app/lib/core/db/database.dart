@@ -30,7 +30,7 @@ class LifeDatabase extends _$LifeDatabase {
   LifeDatabase(super.executor);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -48,6 +48,7 @@ class LifeDatabase extends _$LifeDatabase {
             await m.addColumn(documentExtractions, documentExtractions.origin);
             await customStatement('CREATE INDEX IF NOT EXISTS idx_chunks_document ON document_chunks (document_id)');
           }
+          if (from < 4) await m.addColumn(entityDates, entityDates.remindDaysBefore);
         },
         beforeOpen: (details) async {
           await customStatement('PRAGMA foreign_keys = ON');

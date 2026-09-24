@@ -24,7 +24,7 @@ void main() {
     final task = await (db.select(db.tasks)..where((t) => t.id.equals('t1'))).getSingle();
     expect(task.title, 'Renew insurance');
     expect(task.allDay, isFalse);
-    expect((await db.customSelect('PRAGMA user_version').getSingle()).read<int>('user_version'), 3);
+    expect((await db.customSelect('PRAGMA user_version').getSingle()).read<int>('user_version'), 4);
 
     // The new column is writable.
     await (db.update(db.tasks)..where((t) => t.id.equals('t1'))).write(const TasksCompanion(allDay: Value(true)));
@@ -51,5 +51,22 @@ void main() {
     expect(ex.quote, isNull);
     final indexes = await db.customSelect("SELECT name FROM sqlite_master WHERE type = 'index' AND name = 'idx_chunks_document'").get();
     expect(indexes, hasLength(1));
+  });
+
+  test('v3 → v4 adds entity_dates.remind_days_before', () async {
+    final dir = await Directory.systemTemp.createTemp('lifeos_mig4');
+    addTearDown(() => dir.delete(recursive: true));
+    final file = File('${dir.path}/v3.db');
+    final v3 = raw.sqlite3.open(file.path);
+    v3.execute(File('test/db/fixtures/schema_v3.sql').readAsStringSync());
+    v3.execute("INSERT INTO entities (id, source, created_at, updated_at, type, display_name) VALUES ('e1', 0, 0, 0, 'person', 'Ada')");
+    v3.execute("INSERT INTO entity_dates (id, source, created_at, updated_at, entity_id, kind, date) VALUES ('d1', 0, 0, 0, 'e1', 'birthday', 0)");
+    v3.close();
+
+    final db = LifeDatabase(NativeDatabase(file));
+    addTearDown(db.close);
+    final d = await db.select(db.entityDates).getSingle();
+    expect(d.kind, 'birthday');
+    expect(d.remindDaysBefore, isNull);
   });
 }

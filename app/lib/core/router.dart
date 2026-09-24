@@ -6,7 +6,9 @@ import '../features/ask/ask_sheet.dart';
 import '../features/documents/add_document.dart';
 import '../features/documents/document_review_screen.dart';
 import '../features/documents/documents_screen.dart';
+import '../features/life/entity_screen.dart';
 import '../features/life/life_screen.dart';
+import '../features/life/life_sheets.dart';
 import '../features/memory/capture_sheet.dart';
 import '../features/memory/memory_detail_screen.dart';
 import '../features/memory/memory_screen.dart';
@@ -51,7 +53,19 @@ GoRouter buildRouter() => GoRouter(
                 ],
               ),
             ]),
-            _branch('/life', const LifeScreen()),
+            StatefulShellBranch(routes: [
+              GoRoute(
+                path: '/life',
+                builder: (context, state) => const LifeScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    parentNavigatorKey: _rootKey,
+                    builder: (context, state) => LifeEntityScreen(id: state.pathParameters['id']!),
+                  ),
+                ],
+              ),
+            ]),
             StatefulShellBranch(routes: [
               GoRoute(
                 path: '/memory',
@@ -90,6 +104,7 @@ class _HomeShell extends StatelessWidget {
   static const _todayTab = 0;
   static const _tasksTab = 1;
   static const _documentsTab = 2;
+  static const _lifeTab = 3;
   static const _memoryTab = 4;
 
   @override
@@ -139,6 +154,11 @@ class _HomeShell extends StatelessWidget {
               onPressed: () => showAddDocumentSheet(context, ref),
               child: const Icon(Icons.add),
             ),
+          ),
+        _lifeTab => FloatingActionButton(
+            tooltip: l.lifeAddTooltip,
+            onPressed: () => showLifeAddChooser(context),
+            child: const Icon(Icons.add),
           ),
         _memoryTab => FloatingActionButton(
             tooltip: l.memoryAdd,

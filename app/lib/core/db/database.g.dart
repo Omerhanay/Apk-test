@@ -3213,6 +3213,17 @@ class $EntityDatesTable extends EntityDates
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _remindDaysBeforeMeta = const VerificationMeta(
+    'remindDaysBefore',
+  );
+  @override
+  late final GeneratedColumn<int> remindDaysBefore = GeneratedColumn<int>(
+    'remind_days_before',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3227,6 +3238,7 @@ class $EntityDatesTable extends EntityDates
     kind,
     date,
     recurrenceRule,
+    remindDaysBefore,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3312,6 +3324,15 @@ class $EntityDatesTable extends EntityDates
         ),
       );
     }
+    if (data.containsKey('remind_days_before')) {
+      context.handle(
+        _remindDaysBeforeMeta,
+        remindDaysBefore.isAcceptableOrUnknown(
+          data['remind_days_before']!,
+          _remindDaysBeforeMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -3373,6 +3394,10 @@ class $EntityDatesTable extends EntityDates
         DriftSqlType.string,
         data['${effectivePrefix}recurrence_rule'],
       ),
+      remindDaysBefore: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}remind_days_before'],
+      ),
     );
   }
 
@@ -3400,6 +3425,9 @@ class EntityDate extends DataClass implements Insertable<EntityDate> {
   final String kind;
   final DateTime date;
   final String? recurrenceRule;
+
+  /// Schema v4: remind this many days before each occurrence; null for none.
+  final int? remindDaysBefore;
   const EntityDate({
     required this.id,
     required this.source,
@@ -3413,6 +3441,7 @@ class EntityDate extends DataClass implements Insertable<EntityDate> {
     required this.kind,
     required this.date,
     this.recurrenceRule,
+    this.remindDaysBefore,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3443,6 +3472,9 @@ class EntityDate extends DataClass implements Insertable<EntityDate> {
     if (!nullToAbsent || recurrenceRule != null) {
       map['recurrence_rule'] = Variable<String>(recurrenceRule);
     }
+    if (!nullToAbsent || remindDaysBefore != null) {
+      map['remind_days_before'] = Variable<int>(remindDaysBefore);
+    }
     return map;
   }
 
@@ -3466,6 +3498,9 @@ class EntityDate extends DataClass implements Insertable<EntityDate> {
       recurrenceRule: recurrenceRule == null && nullToAbsent
           ? const Value.absent()
           : Value(recurrenceRule),
+      remindDaysBefore: remindDaysBefore == null && nullToAbsent
+          ? const Value.absent()
+          : Value(remindDaysBefore),
     );
   }
 
@@ -3491,6 +3526,7 @@ class EntityDate extends DataClass implements Insertable<EntityDate> {
       kind: serializer.fromJson<String>(json['kind']),
       date: serializer.fromJson<DateTime>(json['date']),
       recurrenceRule: serializer.fromJson<String?>(json['recurrenceRule']),
+      remindDaysBefore: serializer.fromJson<int?>(json['remindDaysBefore']),
     );
   }
   @override
@@ -3513,6 +3549,7 @@ class EntityDate extends DataClass implements Insertable<EntityDate> {
       'kind': serializer.toJson<String>(kind),
       'date': serializer.toJson<DateTime>(date),
       'recurrenceRule': serializer.toJson<String?>(recurrenceRule),
+      'remindDaysBefore': serializer.toJson<int?>(remindDaysBefore),
     };
   }
 
@@ -3529,6 +3566,7 @@ class EntityDate extends DataClass implements Insertable<EntityDate> {
     String? kind,
     DateTime? date,
     Value<String?> recurrenceRule = const Value.absent(),
+    Value<int?> remindDaysBefore = const Value.absent(),
   }) => EntityDate(
     id: id ?? this.id,
     source: source ?? this.source,
@@ -3544,6 +3582,9 @@ class EntityDate extends DataClass implements Insertable<EntityDate> {
     recurrenceRule: recurrenceRule.present
         ? recurrenceRule.value
         : this.recurrenceRule,
+    remindDaysBefore: remindDaysBefore.present
+        ? remindDaysBefore.value
+        : this.remindDaysBefore,
   );
   EntityDate copyWithCompanion(EntityDatesCompanion data) {
     return EntityDate(
@@ -3565,6 +3606,9 @@ class EntityDate extends DataClass implements Insertable<EntityDate> {
       recurrenceRule: data.recurrenceRule.present
           ? data.recurrenceRule.value
           : this.recurrenceRule,
+      remindDaysBefore: data.remindDaysBefore.present
+          ? data.remindDaysBefore.value
+          : this.remindDaysBefore,
     );
   }
 
@@ -3582,7 +3626,8 @@ class EntityDate extends DataClass implements Insertable<EntityDate> {
           ..write('entityId: $entityId, ')
           ..write('kind: $kind, ')
           ..write('date: $date, ')
-          ..write('recurrenceRule: $recurrenceRule')
+          ..write('recurrenceRule: $recurrenceRule, ')
+          ..write('remindDaysBefore: $remindDaysBefore')
           ..write(')'))
         .toString();
   }
@@ -3601,6 +3646,7 @@ class EntityDate extends DataClass implements Insertable<EntityDate> {
     kind,
     date,
     recurrenceRule,
+    remindDaysBefore,
   );
   @override
   bool operator ==(Object other) =>
@@ -3617,7 +3663,8 @@ class EntityDate extends DataClass implements Insertable<EntityDate> {
           other.entityId == this.entityId &&
           other.kind == this.kind &&
           other.date == this.date &&
-          other.recurrenceRule == this.recurrenceRule);
+          other.recurrenceRule == this.recurrenceRule &&
+          other.remindDaysBefore == this.remindDaysBefore);
 }
 
 class EntityDatesCompanion extends UpdateCompanion<EntityDate> {
@@ -3633,6 +3680,7 @@ class EntityDatesCompanion extends UpdateCompanion<EntityDate> {
   final Value<String> kind;
   final Value<DateTime> date;
   final Value<String?> recurrenceRule;
+  final Value<int?> remindDaysBefore;
   final Value<int> rowid;
   const EntityDatesCompanion({
     this.id = const Value.absent(),
@@ -3647,6 +3695,7 @@ class EntityDatesCompanion extends UpdateCompanion<EntityDate> {
     this.kind = const Value.absent(),
     this.date = const Value.absent(),
     this.recurrenceRule = const Value.absent(),
+    this.remindDaysBefore = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   EntityDatesCompanion.insert({
@@ -3662,6 +3711,7 @@ class EntityDatesCompanion extends UpdateCompanion<EntityDate> {
     required String kind,
     required DateTime date,
     this.recurrenceRule = const Value.absent(),
+    this.remindDaysBefore = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        source = Value(source),
@@ -3683,6 +3733,7 @@ class EntityDatesCompanion extends UpdateCompanion<EntityDate> {
     Expression<String>? kind,
     Expression<DateTime>? date,
     Expression<String>? recurrenceRule,
+    Expression<int>? remindDaysBefore,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -3698,6 +3749,7 @@ class EntityDatesCompanion extends UpdateCompanion<EntityDate> {
       if (kind != null) 'kind': kind,
       if (date != null) 'date': date,
       if (recurrenceRule != null) 'recurrence_rule': recurrenceRule,
+      if (remindDaysBefore != null) 'remind_days_before': remindDaysBefore,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -3715,6 +3767,7 @@ class EntityDatesCompanion extends UpdateCompanion<EntityDate> {
     Value<String>? kind,
     Value<DateTime>? date,
     Value<String?>? recurrenceRule,
+    Value<int?>? remindDaysBefore,
     Value<int>? rowid,
   }) {
     return EntityDatesCompanion(
@@ -3730,6 +3783,7 @@ class EntityDatesCompanion extends UpdateCompanion<EntityDate> {
       kind: kind ?? this.kind,
       date: date ?? this.date,
       recurrenceRule: recurrenceRule ?? this.recurrenceRule,
+      remindDaysBefore: remindDaysBefore ?? this.remindDaysBefore,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -3777,6 +3831,9 @@ class EntityDatesCompanion extends UpdateCompanion<EntityDate> {
     if (recurrenceRule.present) {
       map['recurrence_rule'] = Variable<String>(recurrenceRule.value);
     }
+    if (remindDaysBefore.present) {
+      map['remind_days_before'] = Variable<int>(remindDaysBefore.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -3798,6 +3855,7 @@ class EntityDatesCompanion extends UpdateCompanion<EntityDate> {
           ..write('kind: $kind, ')
           ..write('date: $date, ')
           ..write('recurrenceRule: $recurrenceRule, ')
+          ..write('remindDaysBefore: $remindDaysBefore, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -14959,6 +15017,7 @@ typedef $$EntityDatesTableCreateCompanionBuilder =
       required String kind,
       required DateTime date,
       Value<String?> recurrenceRule,
+      Value<int?> remindDaysBefore,
       Value<int> rowid,
     });
 typedef $$EntityDatesTableUpdateCompanionBuilder =
@@ -14975,6 +15034,7 @@ typedef $$EntityDatesTableUpdateCompanionBuilder =
       Value<String> kind,
       Value<DateTime> date,
       Value<String?> recurrenceRule,
+      Value<int?> remindDaysBefore,
       Value<int> rowid,
     });
 
@@ -15066,6 +15126,11 @@ class $$EntityDatesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<int> get remindDaysBefore => $composableBuilder(
+    column: $table.remindDaysBefore,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$EntitiesTableFilterComposer get entityId {
     final $$EntitiesTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -15154,6 +15219,11 @@ class $$EntityDatesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get remindDaysBefore => $composableBuilder(
+    column: $table.remindDaysBefore,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$EntitiesTableOrderingComposer get entityId {
     final $$EntitiesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -15227,6 +15297,11 @@ class $$EntityDatesTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<int> get remindDaysBefore => $composableBuilder(
+    column: $table.remindDaysBefore,
+    builder: (column) => column,
+  );
+
   $$EntitiesTableAnnotationComposer get entityId {
     final $$EntitiesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -15291,6 +15366,7 @@ class $$EntityDatesTableTableManager
                 Value<String> kind = const Value.absent(),
                 Value<DateTime> date = const Value.absent(),
                 Value<String?> recurrenceRule = const Value.absent(),
+                Value<int?> remindDaysBefore = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => EntityDatesCompanion(
                 id: id,
@@ -15305,6 +15381,7 @@ class $$EntityDatesTableTableManager
                 kind: kind,
                 date: date,
                 recurrenceRule: recurrenceRule,
+                remindDaysBefore: remindDaysBefore,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -15321,6 +15398,7 @@ class $$EntityDatesTableTableManager
                 required String kind,
                 required DateTime date,
                 Value<String?> recurrenceRule = const Value.absent(),
+                Value<int?> remindDaysBefore = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => EntityDatesCompanion.insert(
                 id: id,
@@ -15335,6 +15413,7 @@ class $$EntityDatesTableTableManager
                 kind: kind,
                 date: date,
                 recurrenceRule: recurrenceRule,
+                remindDaysBefore: remindDaysBefore,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

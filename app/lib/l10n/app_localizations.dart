@@ -299,7 +299,7 @@ abstract class AppLocalizations {
   /// No description provided for @lifeTimelineEmptyBody.
   ///
   /// In en, this message translates to:
-  /// **'Events, uploads and reminders appear here in order.'**
+  /// **'Fills in by itself: upcoming events, tasks, birthdays and expiry dates, and what you added or completed.'**
   String get lifeTimelineEmptyBody;
 
   /// No description provided for @lifePeopleEmptyTitle.
@@ -311,7 +311,7 @@ abstract class AppLocalizations {
   /// No description provided for @lifePeopleEmptyBody.
   ///
   /// In en, this message translates to:
-  /// **'People you mention, like family members, are linked here.'**
+  /// **'Add your family and the people who matter. Birthdays are remembered every year, and everything that mentions them is gathered on their page.'**
   String get lifePeopleEmptyBody;
 
   /// No description provided for @lifeThingsEmptyTitle.
@@ -323,7 +323,7 @@ abstract class AppLocalizations {
   /// No description provided for @lifeThingsEmptyBody.
   ///
   /// In en, this message translates to:
-  /// **'Vehicles, subscriptions and trips are linked here.'**
+  /// **'Add your car, home, subscriptions and devices with their dates — inspection, insurance, renewal — and get reminded in time.'**
   String get lifeThingsEmptyBody;
 
   /// No description provided for @memoryEmptyTitle.
@@ -1633,6 +1633,360 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'AI suggestions checked'**
   String get auditDocumentAiFields;
+
+  /// No description provided for @lifeAddTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Life'**
+  String get lifeAddTooltip;
+
+  /// No description provided for @lifeAddPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Add person'**
+  String get lifeAddPerson;
+
+  /// No description provided for @lifeAddThing.
+  ///
+  /// In en, this message translates to:
+  /// **'Add thing'**
+  String get lifeAddThing;
+
+  /// No description provided for @lifeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get lifeName;
+
+  /// No description provided for @lifeRelation.
+  ///
+  /// In en, this message translates to:
+  /// **'Relation'**
+  String get lifeRelation;
+
+  /// No description provided for @relSpouse.
+  ///
+  /// In en, this message translates to:
+  /// **'Spouse'**
+  String get relSpouse;
+
+  /// No description provided for @relChild.
+  ///
+  /// In en, this message translates to:
+  /// **'Child'**
+  String get relChild;
+
+  /// No description provided for @relParent.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent'**
+  String get relParent;
+
+  /// No description provided for @relSibling.
+  ///
+  /// In en, this message translates to:
+  /// **'Sibling'**
+  String get relSibling;
+
+  /// No description provided for @relRelative.
+  ///
+  /// In en, this message translates to:
+  /// **'Relative'**
+  String get relRelative;
+
+  /// No description provided for @relFriend.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend'**
+  String get relFriend;
+
+  /// No description provided for @relColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Colleague'**
+  String get relColleague;
+
+  /// No description provided for @relOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get relOther;
+
+  /// No description provided for @lifeBirthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get lifeBirthday;
+
+  /// No description provided for @lifeSetBirthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Add birthday'**
+  String get lifeSetBirthday;
+
+  /// No description provided for @lifeBirthYearUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'I don\'t know the year'**
+  String get lifeBirthYearUnknown;
+
+  /// No description provided for @lifeNoReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'No reminder'**
+  String get lifeNoReminder;
+
+  /// No description provided for @thingVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle'**
+  String get thingVehicle;
+
+  /// No description provided for @thingHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get thingHome;
+
+  /// No description provided for @thingSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription'**
+  String get thingSubscription;
+
+  /// No description provided for @thingDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get thingDevice;
+
+  /// No description provided for @thingPet.
+  ///
+  /// In en, this message translates to:
+  /// **'Pet'**
+  String get thingPet;
+
+  /// No description provided for @thingOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get thingOther;
+
+  /// No description provided for @dateKindBirthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get dateKindBirthday;
+
+  /// No description provided for @dateKindExpires.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires'**
+  String get dateKindExpires;
+
+  /// No description provided for @dateKindRenews.
+  ///
+  /// In en, this message translates to:
+  /// **'Renewal'**
+  String get dateKindRenews;
+
+  /// No description provided for @dateKindInspection.
+  ///
+  /// In en, this message translates to:
+  /// **'Inspection'**
+  String get dateKindInspection;
+
+  /// No description provided for @dateKindService.
+  ///
+  /// In en, this message translates to:
+  /// **'Service'**
+  String get dateKindService;
+
+  /// No description provided for @dateKindPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment'**
+  String get dateKindPayment;
+
+  /// No description provided for @dateKindOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get dateKindOther;
+
+  /// No description provided for @dateKindStarts.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts'**
+  String get dateKindStarts;
+
+  /// No description provided for @dateKindIssued.
+  ///
+  /// In en, this message translates to:
+  /// **'Issued'**
+  String get dateKindIssued;
+
+  /// No description provided for @dateKindDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due'**
+  String get dateKindDue;
+
+  /// No description provided for @lifeAddDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Add date'**
+  String get lifeAddDate;
+
+  /// No description provided for @lifeDateKind.
+  ///
+  /// In en, this message translates to:
+  /// **'What date is it?'**
+  String get lifeDateKind;
+
+  /// No description provided for @lifePickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date'**
+  String get lifePickDate;
+
+  /// No description provided for @lifeDates.
+  ///
+  /// In en, this message translates to:
+  /// **'DATES'**
+  String get lifeDates;
+
+  /// No description provided for @lifeRelated.
+  ///
+  /// In en, this message translates to:
+  /// **'RELATED'**
+  String get lifeRelated;
+
+  /// No description provided for @lifeRelatedNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing mentions {name} yet.'**
+  String lifeRelatedNone(String name);
+
+  /// No description provided for @lifeTurns.
+  ///
+  /// In en, this message translates to:
+  /// **'Turns {age} on {date}'**
+  String lifeTurns(int age, String date);
+
+  /// No description provided for @lifeNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {date}'**
+  String lifeNext(String date);
+
+  /// No description provided for @lifeDeleteConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}?'**
+  String lifeDeleteConfirmTitle(String name);
+
+  /// No description provided for @lifeDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get lifeDelete;
+
+  /// No description provided for @lifeDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get lifeDeleted;
+
+  /// No description provided for @lifeRemoveDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove date'**
+  String get lifeRemoveDate;
+
+  /// No description provided for @lifeDeleteConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Its dates and reminders will be removed too.'**
+  String get lifeDeleteConfirmBody;
+
+  /// No description provided for @lifeReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} · {kind} ({date})'**
+  String lifeReminderTitle(String name, String kind, String date);
+
+  /// No description provided for @tlEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get tlEvent;
+
+  /// No description provided for @tlTaskDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get tlTaskDue;
+
+  /// No description provided for @tlTaskDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get tlTaskDone;
+
+  /// No description provided for @tlDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Document added'**
+  String get tlDocument;
+
+  /// No description provided for @tlMemory.
+  ///
+  /// In en, this message translates to:
+  /// **'Remembered'**
+  String get tlMemory;
+
+  /// No description provided for @auditPersonAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Person added'**
+  String get auditPersonAdded;
+
+  /// No description provided for @auditPersonEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'Person edited'**
+  String get auditPersonEdited;
+
+  /// No description provided for @auditPersonDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Person deleted'**
+  String get auditPersonDeleted;
+
+  /// No description provided for @auditThingAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Thing added'**
+  String get auditThingAdded;
+
+  /// No description provided for @auditThingEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'Thing edited'**
+  String get auditThingEdited;
+
+  /// No description provided for @auditThingDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Thing deleted'**
+  String get auditThingDeleted;
+
+  /// No description provided for @auditDateAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Date added'**
+  String get auditDateAdded;
 }
 
 class _AppLocalizationsDelegate

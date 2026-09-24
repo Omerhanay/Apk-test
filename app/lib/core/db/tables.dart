@@ -95,6 +95,9 @@ class EntityDates extends Table with Provenance {
   TextColumn get kind => text()(); // starts | expires | renews | due | birthday | anniversary
   DateTimeColumn get date => dateTime()();
   TextColumn get recurrenceRule => text().nullable()(); // RFC 5545 RRULE
+
+  /// Schema v4: remind this many days before each occurrence; null for none.
+  IntColumn get remindDaysBefore => integer().nullable()();
 }
 
 @DataClassName('Document')

@@ -115,21 +115,21 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get lifeTimelineEmptyBody =>
-      'Etkinlikler, yüklemeler ve hatırlatıcılar burada sırayla görünür.';
+      'Kendiliğinden dolar: yaklaşan etkinlikler, görevler, doğum günleri ve bitiş tarihleri; eklediğiniz ve tamamladığınız her şey.';
 
   @override
   String get lifePeopleEmptyTitle => 'Henüz kişi yok';
 
   @override
   String get lifePeopleEmptyBody =>
-      'Bahsettiğiniz kişiler, örneğin aile üyeleri, burada birbirine bağlanır.';
+      'Ailenizi ve önemli kişileri ekleyin. Doğum günleri her yıl hatırlatılır, onlardan bahseden her şey sayfalarında toplanır.';
 
   @override
-  String get lifeThingsEmptyTitle => 'Henüz kayıt yok';
+  String get lifeThingsEmptyTitle => 'Henüz varlık yok';
 
   @override
   String get lifeThingsEmptyBody =>
-      'Araçlar, abonelikler ve seyahatler burada birbirine bağlanır.';
+      'Aracınızı, evinizi, aboneliklerinizi ve cihazlarınızı tarihleriyle (muayene, sigorta, yenileme) ekleyin; zamanında hatırlatılsın.';
 
   @override
   String get memoryEmptyTitle => 'LIFE OS henüz hiçbir şey bilmiyor';
@@ -851,4 +851,192 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get auditDocumentAiFields => 'Yapay zekâ önerileri kontrol edildi';
+
+  @override
+  String get lifeAddTooltip => 'Yaşam\'a ekle';
+
+  @override
+  String get lifeAddPerson => 'Kişi ekle';
+
+  @override
+  String get lifeAddThing => 'Varlık ekle';
+
+  @override
+  String get lifeName => 'Ad';
+
+  @override
+  String get lifeRelation => 'Yakınlık';
+
+  @override
+  String get relSpouse => 'Eş';
+
+  @override
+  String get relChild => 'Çocuk';
+
+  @override
+  String get relParent => 'Anne/Baba';
+
+  @override
+  String get relSibling => 'Kardeş';
+
+  @override
+  String get relRelative => 'Akraba';
+
+  @override
+  String get relFriend => 'Arkadaş';
+
+  @override
+  String get relColleague => 'İş arkadaşı';
+
+  @override
+  String get relOther => 'Diğer';
+
+  @override
+  String get lifeBirthday => 'Doğum günü';
+
+  @override
+  String get lifeSetBirthday => 'Doğum günü ekle';
+
+  @override
+  String get lifeBirthYearUnknown => 'Yılını bilmiyorum';
+
+  @override
+  String get lifeNoReminder => 'Hatırlatma yok';
+
+  @override
+  String get thingVehicle => 'Araç';
+
+  @override
+  String get thingHome => 'Ev';
+
+  @override
+  String get thingSubscription => 'Abonelik';
+
+  @override
+  String get thingDevice => 'Cihaz';
+
+  @override
+  String get thingPet => 'Evcil hayvan';
+
+  @override
+  String get thingOther => 'Diğer';
+
+  @override
+  String get dateKindBirthday => 'Doğum günü';
+
+  @override
+  String get dateKindExpires => 'Bitiş';
+
+  @override
+  String get dateKindRenews => 'Yenileme';
+
+  @override
+  String get dateKindInspection => 'Muayene';
+
+  @override
+  String get dateKindService => 'Bakım';
+
+  @override
+  String get dateKindPayment => 'Ödeme';
+
+  @override
+  String get dateKindOther => 'Tarih';
+
+  @override
+  String get dateKindStarts => 'Başlangıç';
+
+  @override
+  String get dateKindIssued => 'Düzenlenme';
+
+  @override
+  String get dateKindDue => 'Son ödeme';
+
+  @override
+  String get lifeAddDate => 'Tarih ekle';
+
+  @override
+  String get lifeDateKind => 'Ne tarihi?';
+
+  @override
+  String get lifePickDate => 'Tarih seçin';
+
+  @override
+  String get lifeDates => 'TARİHLER';
+
+  @override
+  String get lifeRelated => 'İLGİLİ';
+
+  @override
+  String lifeRelatedNone(String name) {
+    return 'Henüz $name geçen bir kayıt yok.';
+  }
+
+  @override
+  String lifeTurns(int age, String date) {
+    return '$date tarihinde $age yaşına giriyor';
+  }
+
+  @override
+  String lifeNext(String date) {
+    return 'Sonraki: $date';
+  }
+
+  @override
+  String lifeDeleteConfirmTitle(String name) {
+    return '$name silinsin mi?';
+  }
+
+  @override
+  String get lifeDelete => 'Sil';
+
+  @override
+  String get lifeDeleted => 'Silindi';
+
+  @override
+  String get lifeRemoveDate => 'Tarihi kaldır';
+
+  @override
+  String get lifeDeleteConfirmBody =>
+      'Tarihleri ve hatırlatıcıları da kaldırılacak.';
+
+  @override
+  String lifeReminderTitle(String name, String kind, String date) {
+    return '$name · $kind ($date)';
+  }
+
+  @override
+  String get tlEvent => 'Etkinlik';
+
+  @override
+  String get tlTaskDue => 'Görev';
+
+  @override
+  String get tlTaskDone => 'Tamamlandı';
+
+  @override
+  String get tlDocument => 'Belge eklendi';
+
+  @override
+  String get tlMemory => 'Hatırlandı';
+
+  @override
+  String get auditPersonAdded => 'Kişi eklendi';
+
+  @override
+  String get auditPersonEdited => 'Kişi düzenlendi';
+
+  @override
+  String get auditPersonDeleted => 'Kişi silindi';
+
+  @override
+  String get auditThingAdded => 'Varlık eklendi';
+
+  @override
+  String get auditThingEdited => 'Varlık düzenlendi';
+
+  @override
+  String get auditThingDeleted => 'Varlık silindi';
+
+  @override
+  String get auditDateAdded => 'Tarih eklendi';
 }
